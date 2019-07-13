@@ -13,7 +13,6 @@ object AccountMapper {
             password = account.password.value,
             creationDate = account.creationDate.date,
             user = UserMapper.mapToEntity(account.user)
-
             )
 
     fun mapToDomain(entity: AccountEntity): Account = Account(login = Login(entity.login),

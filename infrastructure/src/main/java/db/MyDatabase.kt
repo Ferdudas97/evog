@@ -3,7 +3,7 @@ package org.agh.eaiib.db
 import org.agh.eaiib.db.entity.account.AccountEntity
 import org.agh.eaiib.db.entity.user.UserEntity
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
 import user.info.Sex
 import java.util.*
@@ -14,6 +14,7 @@ object Accounts : Table() {
     val password = varchar("password", 50).primaryKey()
     val creationDate = date("creation_date")
     val userId = uuid("user_id").uniqueIndex().references(Users.id)
+
     fun toAccountEntity(row: ResultRow) = AccountEntity(
             login = row[login],
             password = row[password],
@@ -48,4 +49,19 @@ object Users : Table() {
 }
 
 
-fun createDatabase() = SchemaUtils.create(Accounts, Users)
+object MyDatabase {
+    fun init() {
+        connectDatabase()
+        createDatabase()
+    }
+
+    private fun createDatabase() =
+            transaction {
+                SchemaUtils.create(Accounts, Users)
+            }
+
+    private fun connectDatabase() = Database.connect("jdbc:postgresql://localhost/admin",
+            user = "admin", password = "admin",
+            driver = "org.postgresql.Driver")
+
+}

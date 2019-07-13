@@ -1,14 +1,7 @@
 package org.agh.eaiib.db.entity.user
 
-import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.Table
 import org.joda.time.DateTime
-import user.info.*
-import java.time.LocalDate
-import java.util.*
-
-
-
+import user.info.Sex
 
 
 data class UserEntity(val id: String,

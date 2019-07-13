@@ -30,9 +30,10 @@
             <version>2.10.2</version>
             <scope>compile</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>io.konform</groupId>-->
-            <!--<artifactId></artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>io.konform</groupId>
+            <artifactId>konform</artifactId>
+            <version>0.1.0</version>
+        </dependency>
     </dependencies>
 </project>
