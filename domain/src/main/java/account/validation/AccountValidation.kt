@@ -19,7 +19,7 @@ fun Account.validateAccount(): Either<DomainError, Account> {
 
 
 fun Password.validate(): Either<ValidationError, Password> = when (value.length) {
-    in 0..6 -> ValidationError("Password should contain min 6 chars").left()
+    in 0..5 -> ValidationError("Password should contain min 6 chars").left()
     else -> this.right()
 }
 

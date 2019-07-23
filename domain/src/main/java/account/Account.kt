@@ -1,11 +1,11 @@
 package account
 
-import org.joda.time.DateTime
+import org.joda.time.LocalDate
 import user.User
 
 data class Login(val value: String)
 data class Password(val value: String)
-data class CreationDate(val date: DateTime)
+data class CreationDate(val date: LocalDate)
 
 // Todo: add it if everything works
 enum class State {
@@ -13,5 +13,4 @@ enum class State {
 }
 data class Account(val login: Login,
                    val password: Password,
-                   val creationDate: CreationDate,
                    val user: User)

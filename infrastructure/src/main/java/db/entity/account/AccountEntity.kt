@@ -6,6 +6,6 @@ import org.joda.time.DateTime
 data class AccountEntity(
         val login: String,
         val password: String,
-        val creationDate: DateTime,
+        val creationDate: DateTime? = null,
         val user: UserEntity
 )

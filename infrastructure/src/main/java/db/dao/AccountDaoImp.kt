@@ -6,19 +6,22 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
+import org.joda.time.DateTime
 import java.util.*
 
 
-class AccountDaoImpl : AccountDao {
+class AccountDaoImpl(private val userDao: UserDao) : AccountDao {
     override fun update(entity: AccountEntity) {
         transaction {
-            Accounts.insert {
+            Accounts.update {
                 it[Accounts.login] = entity.login
                 it[Accounts.password] = entity.password
                 it[Accounts.userId] = UUID.fromString(entity.user.id)
-                it[Accounts.creationDate] = entity.creationDate
+                userDao.update(entity.user)
+
             }
-            commit()
+
         }
     }
 
@@ -28,9 +31,10 @@ class AccountDaoImpl : AccountDao {
                 it[Accounts.login] = entity.login
                 it[Accounts.password] = entity.password
                 it[Accounts.userId] = UUID.fromString(entity.user.id)
-                it[Accounts.creationDate] = entity.creationDate
+                it[Accounts.creationDate] = DateTime.now()
+                userDao.save(entity.user)
             }
-            commit()
+
         }
     }
 

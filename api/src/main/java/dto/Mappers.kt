@@ -1,10 +1,8 @@
 package dto
 
 import account.Account
-import account.CreationDate
 import account.Login
 import account.Password
-import org.joda.time.DateTime
 import user.User
 import user.UserId
 import user.info.*
@@ -21,7 +19,6 @@ object AccountDtoMapper {
 
     fun mapToDomain(dto: AccountDto): Account = Account(login = Login(dto.login),
             password = Password(dto.password),
-            creationDate = CreationDate(DateTime.now()),
             user = UserDtoMapper.mapToDomain(dto.user))
 }
 

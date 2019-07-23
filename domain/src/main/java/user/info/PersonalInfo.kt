@@ -1,11 +1,11 @@
 package user.info
 
-import org.joda.time.DateTime
+import org.joda.time.LocalDate
 
 
 data class FirstName(val value: String)
 data class LastName(val value: String)
-data class BirthDate(val date: DateTime)
+data class BirthDate(val date: LocalDate)
 enum class Sex{
     MALE, FEMALE
 }

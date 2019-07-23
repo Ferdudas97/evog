@@ -19,9 +19,11 @@ class UserDaoImpl : UserDao {
     }
 
     override fun findById(id: String): UserEntity? {
-        return Users.select { Users.id eq UUID.fromString(id.toString()) }
-                .map(Users::toUserEntity)
-                .first()
+        return transaction {
+            Users.select { Users.id eq UUID.fromString(id.toString()) }
+                    .map(Users::toUserEntity)
+                    .firstOrNull()
+        }
     }
 
     override fun save(entity: UserEntity) {

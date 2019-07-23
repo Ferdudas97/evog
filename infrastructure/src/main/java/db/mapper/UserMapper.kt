@@ -1,6 +1,7 @@
 package org.agh.eaiib.db.mapper
 
 import org.agh.eaiib.db.entity.user.UserEntity
+import org.joda.time.LocalTime
 import user.User
 import user.UserId
 import user.info.*
@@ -13,7 +14,7 @@ object UserMapper {
             firstName = user.personalInfo.firstName.value,
             lastName = user.personalInfo.lastName.value,
             description = user.personalInfo.description?.value,
-            birthDate = user.personalInfo.birthDate.date,
+            birthDate = user.personalInfo.birthDate.date.toDateTime(LocalTime.MIDNIGHT),
             sex = user.personalInfo.sex,
             email = user.contactInfo.email?.value,
             phoneNumber = user.contactInfo.phoneNumber?.number
@@ -21,8 +22,9 @@ object UserMapper {
 
     fun mapToDomain(entity: UserEntity): User = User(id = UserId(entity.id),
             personalInfo = PersonalInfo(FirstName(entity.firstName),
-                    LastName(entity.lastName), BirthDate(entity.birthDate),
-                    Description(entity.description!!),
+                    LastName(entity.lastName),
+                    BirthDate(entity.birthDate.toLocalDate()),
+                    entity.description?.let { Description(it) },
                     entity.sex),
             contactInfo = ContactInfo(phoneNumber = entity.phoneNumber?.let { PhoneNumber(it) },
                     email = entity.email?.let { Email(it) }))

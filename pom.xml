@@ -70,11 +70,22 @@
             <version>0.8.2</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.kodein.di/kodein-di-core -->
+        <!-- https://mvnrepository.com/artifact/com.github.salomonbrys.kodein/kodein -->
         <dependency>
-            <groupId>org.kodein.di</groupId>
-            <artifactId>kodein-di-core</artifactId>
-            <version>6.3.3</version>
+            <groupId>com.github.salomonbrys.kodein</groupId>
+            <artifactId>kodein</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.agh.eaiib</groupId>
+            <artifactId>extensions</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>
@@ -170,8 +181,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <target>1.8</target>
-                    <source>1.8</source>
+                    <target>1.11</target>
+                    <source>1.11</source>
                     <compilerId>javac</compilerId>
                     <compilerArgs>
                         <arg>-Werror</arg>
