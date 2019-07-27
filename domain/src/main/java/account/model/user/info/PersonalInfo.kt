@@ -1,4 +1,4 @@
-package account.user.info
+package account.model.user.info
 
 import org.joda.time.LocalDate
 

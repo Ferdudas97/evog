@@ -1,7 +1,7 @@
 package command.account.handler
 
-import account.Login
-import account.Password
+import account.model.Login
+import account.model.Password
 import account.repository.AccountRepository
 import arrow.core.Either
 import arrow.core.Left

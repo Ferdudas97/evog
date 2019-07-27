@@ -1,6 +1,6 @@
 package command.handler
 
-import account.user.info.Sex
+import account.model.user.info.Sex
 import arrow.core.Left
 import arrow.core.right
 import command.user.UserCommand

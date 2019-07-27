@@ -1,6 +1,6 @@
 package dto
 
-import account.user.info.Sex
+import account.model.user.info.Sex
 import org.joda.time.LocalDate
 
 

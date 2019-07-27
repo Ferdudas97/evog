@@ -1,6 +1,6 @@
 package org.agh.eaiib
 
-import account.user.info.Sex
+import account.model.user.info.Sex
 import com.google.gson.Gson
 import command.account.AccountCommand
 import dto.AccountDto

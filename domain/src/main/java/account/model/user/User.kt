@@ -1,7 +1,7 @@
-package account.user
+package account.model.user
 
-import account.user.info.ContactInfo
-import account.user.info.PersonalInfo
+import account.model.user.info.ContactInfo
+import account.model.user.info.PersonalInfo
 
 data class UserId(val id: String)
 data class User(

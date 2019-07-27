@@ -9,7 +9,7 @@ import io.ktor.routing.post
 import io.ktor.routing.route
 
 
-fun Route.userRoute(updateUserHandler: UpdateUserHandler) = route("/account/user") {
+fun Route.userRoute(updateUserHandler: UpdateUserHandler) = route("/account/model/user") {
     post("/update") {
         val command = call.receive<UserCommand.Update>()
         updateUserHandler.handle(command)

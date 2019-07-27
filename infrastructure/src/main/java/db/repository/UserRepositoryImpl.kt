@@ -1,8 +1,8 @@
 package db.repository
 
 import account.repository.UserRepository
-import account.user.User
-import account.user.UserId
+import account.model.user.User
+import account.model.user.UserId
 import account.validation.validate
 import arrow.core.Either
 import arrow.core.Try

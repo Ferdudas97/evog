@@ -1,7 +1,7 @@
 package event.model.participiant
 
-import account.user.info.FirstName
-import account.user.info.LastName
+import account.model.user.info.FirstName
+import account.model.user.info.LastName
 
 
 sealed class Participant(open val id: ParticipantId, open val firstName: FirstName, open val lastName: LastName, open val age: Age)

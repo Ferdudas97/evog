@@ -1,6 +1,6 @@
 package org.agh.eaiib.dao
 
-import account.user.info.Sex
+import account.model.user.info.Sex
 import io.kotlintest.Spec
 import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.shouldBe
@@ -28,7 +28,7 @@ class UserDaoTest : StringSpec() {
             , sex = Sex.MALE)
 
     init {
-        "should save new account.user" {
+        "should save new account.model.user" {
 
             userDao.save(userEntity)
             val userFromDb = userDao.findById(id)
@@ -37,7 +37,7 @@ class UserDaoTest : StringSpec() {
 
         }
 
-        "should update account.user which is saved" {
+        "should update account.model.user which is saved" {
             val updated = userEntity.copy(lastName = "test2")
             userDao.update(updated)
             val userFromDb = userDao.findById(id)
@@ -45,7 +45,7 @@ class UserDaoTest : StringSpec() {
             userFromDb shouldBe updated
         }
 
-        "should not update account.user which isn't saved" {
+        "should not update account.model.user which isn't saved" {
             val newId = UUID.randomUUID().toString()
             val entity = UserEntity(
                     id = newId,

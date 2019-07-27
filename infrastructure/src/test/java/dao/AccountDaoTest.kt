@@ -1,6 +1,6 @@
 package org.agh.eaiib.dao
 
-import account.user.info.Sex
+import account.model.user.info.Sex
 import io.kotlintest.Spec
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec

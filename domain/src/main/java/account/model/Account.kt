@@ -1,6 +1,6 @@
-package account
+package account.model
 
-import account.user.User
+import account.model.user.User
 import org.joda.time.LocalDate
 
 data class Login(val value: String)

@@ -1,6 +1,6 @@
 package org.agh.eaiib.db
 
-import account.user.info.Sex
+import account.model.user.info.Sex
 import org.agh.eaiib.db.entity.account.AccountEntity
 import org.agh.eaiib.db.entity.user.UserEntity
 import org.jetbrains.exposed.sql.*

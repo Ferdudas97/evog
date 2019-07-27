@@ -1,11 +1,11 @@
 package org.agh.eaiib.repository
 
-import account.Account
-import account.Login
-import account.Password
-import account.user.User
-import account.user.UserId
-import account.user.info.*
+import account.model.Account
+import account.model.Login
+import account.model.Password
+import account.model.user.User
+import account.model.user.UserId
+import account.model.user.info.*
 import io.kotlintest.matchers.boolean.shouldBeTrue
 import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.matchers.types.shouldNotBeNull
@@ -37,8 +37,8 @@ class AccountRepositoryTest : StringSpec() {
 
             val result = accountRepository.save(account)
             result.isRight().shouldBeTrue()
-            val accountFromDb = accountRepository.findByCredentials(Login("login"),
-                    Password("lol123"))
+            val accountFromDb = accountRepository.findByCredentials(account.model.Login("login"),
+                    account.model.Password("lol123"))
             accountFromDb.shouldNotBeNull()
         }
 
@@ -55,8 +55,8 @@ class AccountRepositoryTest : StringSpec() {
 
             val result = accountRepository.save(account)
             result.isLeft().shouldBeTrue()
-            val accountFromDb = accountRepository.findByCredentials(Login("login1"),
-                    Password("lol123"))
+            val accountFromDb = accountRepository.findByCredentials(account.model.Login("login1"),
+                    account.model.Password("lol123"))
             accountFromDb.shouldBeNull()
         }
     }

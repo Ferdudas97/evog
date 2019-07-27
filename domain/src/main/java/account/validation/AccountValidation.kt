@@ -1,10 +1,10 @@
 package account.validation
 
-import account.Account
-import account.Password
-import account.user.User
-import account.user.info.Email
-import account.user.info.PhoneNumber
+import account.model.Account
+import account.model.Password
+import account.model.user.User
+import account.model.user.info.Email
+import account.model.user.info.PhoneNumber
 import arrow.core.*
 import exceptions.DomainError
 import exceptions.ValidationError

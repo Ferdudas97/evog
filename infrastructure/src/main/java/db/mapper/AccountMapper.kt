@@ -1,8 +1,8 @@
 package org.agh.eaiib.db.mapper
 
-import account.Account
-import account.Login
-import account.Password
+import account.model.Account
+import account.model.Login
+import account.model.Password
 import org.agh.eaiib.db.entity.account.AccountEntity
 
 

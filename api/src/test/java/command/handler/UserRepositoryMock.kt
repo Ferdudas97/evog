@@ -1,8 +1,8 @@
 package command.handler
 
 import account.repository.UserRepository
-import account.user.User
-import account.user.UserId
+import account.model.user.User
+import account.model.user.UserId
 import arrow.core.Either
 import arrow.core.Right
 import arrow.core.left

@@ -1,11 +1,11 @@
 package dto
 
-import account.Account
-import account.Login
-import account.Password
-import account.user.User
-import account.user.UserId
-import account.user.info.*
+import account.model.Account
+import account.model.Login
+import account.model.Password
+import account.model.user.User
+import account.model.user.UserId
+import account.model.user.info.*
 import java.util.*
 
 

@@ -1,8 +1,8 @@
 package org.agh.eaiib.db.repository
 
-import account.Account
-import account.Login
-import account.Password
+import account.model.Account
+import account.model.Login
+import account.model.Password
 import account.repository.AccountRepository
 import account.validation.validateAccount
 import arrow.core.Either
