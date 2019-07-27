@@ -1,11 +1,11 @@
 package org.agh.eaiib.repository
 
-import account.model.Account
-import account.model.Login
-import account.model.Password
-import account.model.user.User
-import account.model.user.UserId
-import account.model.user.info.*
+import domain.account.model.Account
+import domain.account.model.Login
+import domain.account.model.Password
+import domain.account.model.user.User
+import domain.account.model.user.UserId
+import domain.account.model.user.info.*
 import io.kotlintest.matchers.boolean.shouldBeTrue
 import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.matchers.types.shouldNotBeNull

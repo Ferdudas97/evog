@@ -1,6 +1,6 @@
 package org.agh.eaiib.db.entity.user
 
-import account.model.user.info.Sex
+import domain.account.model.user.info.Sex
 import org.joda.time.DateTime
 
 

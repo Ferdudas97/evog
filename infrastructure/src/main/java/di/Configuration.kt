@@ -1,12 +1,12 @@
 package org.agh.eaiib.di
 
-import account.repository.AccountRepository
-import account.repository.UserRepository
+import application.command.account.handler.ChangePasswordHandler
+import application.command.account.handler.CreateAccountHandler
+import application.command.account.user.handler.UpdateUserHandler
 import com.github.salomonbrys.kodein.*
-import command.account.handler.ChangePasswordHandler
-import command.account.handler.CreateAccountHandler
-import command.user.handler.UpdateUserHandler
 import db.repository.UserRepositoryImpl
+import domain.account.repository.AccountRepository
+import domain.account.repository.UserRepository
 import integration.DomainEvent
 import integration.ProducerFactory
 import org.agh.eaiib.db.dao.AccountDao

@@ -1,8 +1,8 @@
 package org.agh.eaiib.db.mapper
 
-import account.model.user.User
-import account.model.user.UserId
-import account.model.user.info.*
+import domain.account.model.user.User
+import domain.account.model.user.UserId
+import domain.account.model.user.info.*
 import org.agh.eaiib.db.entity.user.UserEntity
 import org.joda.time.LocalTime
 

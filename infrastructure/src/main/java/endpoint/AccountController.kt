@@ -1,9 +1,9 @@
 package org.agh.eaiib.endpoint
 
+import api.command.command.account.AccountCommand
+import application.command.account.handler.ChangePasswordHandler
+import application.command.account.handler.CreateAccountHandler
 import com.google.gson.Gson
-import command.account.AccountCommand
-import command.account.handler.ChangePasswordHandler
-import command.account.handler.CreateAccountHandler
 import io.ktor.application.call
 import io.ktor.request.receive
 import io.ktor.response.respond

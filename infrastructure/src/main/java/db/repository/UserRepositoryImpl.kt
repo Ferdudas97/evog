@@ -1,12 +1,12 @@
 package db.repository
 
-import account.repository.UserRepository
-import account.model.user.User
-import account.model.user.UserId
-import account.validation.validate
 import arrow.core.Either
 import arrow.core.Try
 import arrow.core.flatMap
+import domain.account.model.user.User
+import domain.account.model.user.UserId
+import domain.account.repository.UserRepository
+import domain.account.validation.validate
 import exceptions.DeleteError
 import exceptions.DomainError
 import exceptions.SavingError

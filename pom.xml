@@ -9,6 +9,7 @@
         <module>domain</module>
         <module>api</module>
         <module>infrastructure</module>
+        <module>application</module>
     </modules>
     <packaging>pom</packaging>
 

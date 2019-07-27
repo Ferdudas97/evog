@@ -1,12 +1,12 @@
 package org.agh.eaiib.db.repository
 
-import account.model.Account
-import account.model.Login
-import account.model.Password
-import account.repository.AccountRepository
-import account.validation.validateAccount
 import arrow.core.Either
 import arrow.core.Try
+import domain.account.model.Account
+import domain.account.model.Login
+import domain.account.model.Password
+import domain.account.repository.AccountRepository
+import domain.account.validation.validateAccount
 import exceptions.DomainError
 import exceptions.SavingError
 import exceptions.UpdateError
