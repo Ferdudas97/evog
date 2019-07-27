@@ -13,7 +13,7 @@ object AccountDtoMapper {
     fun mapToDto(account: Account): AccountDto = AccountDto(
             login = account.login.value,
             password = account.password.value,
-            user = UserDtoMapper.mapToEntity(account.user)
+            user = UserDtoMapper.mapToDto(account.user)
 
     )
 
@@ -24,7 +24,7 @@ object AccountDtoMapper {
 
 object UserDtoMapper {
 
-    fun mapToEntity(user: User): UserDto = UserDto(
+    fun mapToDto(user: User): UserDto = UserDto(
             id = user.id.id,
             firstName = user.personalInfo.firstName.value,
             lastName = user.personalInfo.lastName.value,
