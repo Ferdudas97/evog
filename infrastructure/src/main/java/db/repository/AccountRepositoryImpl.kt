@@ -3,6 +3,7 @@ package org.agh.eaiib.db.repository
 import account.Account
 import account.Login
 import account.Password
+import account.repository.AccountRepository
 import account.validation.validateAccount
 import arrow.core.Either
 import arrow.core.Try
@@ -11,7 +12,6 @@ import exceptions.SavingError
 import exceptions.UpdateError
 import org.agh.eaiib.db.dao.AccountDao
 import org.agh.eaiib.db.mapper.AccountMapper
-import repository.AccountRepository
 
 
 class AccountRepositoryImpl(private val accountDao: AccountDao) : AccountRepository {

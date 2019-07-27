@@ -3,6 +3,9 @@ package org.agh.eaiib.repository
 import account.Account
 import account.Login
 import account.Password
+import account.user.User
+import account.user.UserId
+import account.user.info.*
 import io.kotlintest.matchers.boolean.shouldBeTrue
 import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.matchers.types.shouldNotBeNull
@@ -12,9 +15,6 @@ import org.agh.eaiib.db.dao.AccountDaoImpl
 import org.agh.eaiib.db.dao.UserDaoImpl
 import org.agh.eaiib.db.repository.AccountRepositoryImpl
 import org.joda.time.LocalDate
-import user.User
-import user.UserId
-import user.info.*
 import java.util.*
 
 class AccountRepositoryTest : StringSpec() {

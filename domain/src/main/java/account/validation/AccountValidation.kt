@@ -2,12 +2,12 @@ package account.validation
 
 import account.Account
 import account.Password
+import account.user.User
+import account.user.info.Email
+import account.user.info.PhoneNumber
 import arrow.core.*
 import exceptions.DomainError
 import exceptions.ValidationError
-import user.User
-import user.info.Email
-import user.info.PhoneNumber
 
 
 fun Account.validateAccount(): Either<DomainError, Account> {

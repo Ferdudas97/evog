@@ -1,4 +1,4 @@
-package user.info
+package account.user.info
 
 data class PhoneNumber(val number: String)
 

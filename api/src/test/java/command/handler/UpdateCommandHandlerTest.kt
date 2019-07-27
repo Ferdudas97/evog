@@ -1,5 +1,6 @@
 package command.handler
 
+import account.user.info.Sex
 import arrow.core.Left
 import arrow.core.right
 import command.user.UserCommand
@@ -10,7 +11,6 @@ import exceptions.UpdateError
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 import org.joda.time.LocalDate
-import user.info.Sex
 
 
 class UpdateCommandHandlerTest : StringSpec() {

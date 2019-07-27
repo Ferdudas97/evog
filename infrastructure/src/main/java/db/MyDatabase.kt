@@ -1,11 +1,11 @@
 package org.agh.eaiib.db
 
+import account.user.info.Sex
 import org.agh.eaiib.db.entity.account.AccountEntity
 import org.agh.eaiib.db.entity.user.UserEntity
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
-import user.info.Sex
 import java.util.*
 
 

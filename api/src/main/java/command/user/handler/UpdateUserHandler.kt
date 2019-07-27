@@ -1,5 +1,6 @@
 package command.user.handler
 
+import account.repository.UserRepository
 import arrow.core.Either
 import arrow.peek
 import command.user.UserCommand
@@ -8,7 +9,6 @@ import dto.UserDtoMapper
 import event.UserEvent
 import exceptions.DomainError
 import integration.DomainEvent
-import repository.UserRepository
 
 
 class UpdateUserHandler(private val userRepository: UserRepository, private val eventSender: (DomainEvent) -> Unit) : UserCommandHandler<UserCommand.Update, UserCommandResult.Update>() {

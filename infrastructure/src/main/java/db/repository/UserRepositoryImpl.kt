@@ -1,5 +1,8 @@
 package db.repository
 
+import account.repository.UserRepository
+import account.user.User
+import account.user.UserId
 import account.validation.validate
 import arrow.core.Either
 import arrow.core.Try
@@ -9,9 +12,6 @@ import exceptions.DomainError
 import exceptions.SavingError
 import org.agh.eaiib.db.dao.UserDao
 import org.agh.eaiib.db.mapper.UserMapper
-import repository.UserRepository
-import user.User
-import user.UserId
 
 
 class UserRepositoryImpl(private val userDao: UserDao) : UserRepository {

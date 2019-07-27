@@ -1,10 +1,10 @@
 package org.agh.eaiib.db.mapper
 
+import account.user.User
+import account.user.UserId
+import account.user.info.*
 import org.agh.eaiib.db.entity.user.UserEntity
 import org.joda.time.LocalTime
-import user.User
-import user.UserId
-import user.info.*
 
 
 object UserMapper {

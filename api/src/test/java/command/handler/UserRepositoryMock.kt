@@ -1,14 +1,14 @@
 package command.handler
 
+import account.repository.UserRepository
+import account.user.User
+import account.user.UserId
 import arrow.core.Either
 import arrow.core.Right
 import arrow.core.left
 import arrow.core.right
 import exceptions.DomainError
 import exceptions.UpdateError
-import repository.UserRepository
-import user.User
-import user.UserId
 
 
 class UserRepositoryMock : UserRepository {

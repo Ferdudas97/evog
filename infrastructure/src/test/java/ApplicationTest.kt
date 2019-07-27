@@ -1,5 +1,6 @@
 package org.agh.eaiib
 
+import account.user.info.Sex
 import com.google.gson.Gson
 import command.account.AccountCommand
 import dto.AccountDto
@@ -12,7 +13,6 @@ import io.ktor.server.testing.handleRequest
 import io.ktor.server.testing.setBody
 import io.ktor.server.testing.withTestApplication
 import org.joda.time.LocalDate
-import user.info.Sex
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

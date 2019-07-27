@@ -1,7 +1,7 @@
 package dto
 
+import account.user.info.Sex
 import org.joda.time.LocalDate
-import user.info.Sex
 
 
 data class AccountDto(val login: String, val password: String, val user: UserDto)

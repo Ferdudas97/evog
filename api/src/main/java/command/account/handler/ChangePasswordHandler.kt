@@ -2,6 +2,7 @@ package command.account.handler
 
 import account.Login
 import account.Password
+import account.repository.AccountRepository
 import arrow.core.Either
 import arrow.core.Left
 import arrow.peek
@@ -13,7 +14,6 @@ import event.AccountEvent
 import exceptions.DomainError
 import exceptions.SavingError
 import integration.DomainEvent
-import repository.AccountRepository
 
 
 class ChangePasswordHandler(private val accountRepository: AccountRepository, private val eventSender: (DomainEvent) -> Unit) : AccountCommandHandler<AccountCommand.ChangePassword, AccountCommandResult.UpdatePassword>() {

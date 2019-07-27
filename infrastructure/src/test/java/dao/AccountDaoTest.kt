@@ -1,5 +1,6 @@
 package org.agh.eaiib.dao
 
+import account.user.info.Sex
 import io.kotlintest.Spec
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
@@ -8,7 +9,6 @@ import org.agh.eaiib.db.dao.UserDaoImpl
 import org.agh.eaiib.db.entity.account.AccountEntity
 import org.agh.eaiib.db.entity.user.UserEntity
 import org.joda.time.DateTime
-import user.info.Sex
 import java.util.*
 
 

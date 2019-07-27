@@ -1,7 +1,7 @@
 package org.agh.eaiib.db.entity.user
 
+import account.user.info.Sex
 import org.joda.time.DateTime
-import user.info.Sex
 
 
 data class UserEntity(val id: String,

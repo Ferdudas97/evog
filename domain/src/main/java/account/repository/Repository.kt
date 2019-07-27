@@ -1,12 +1,12 @@
-package repository
+package account.repository
 
 import account.Account
 import account.Login
 import account.Password
+import account.user.User
+import account.user.UserId
 import arrow.core.Either
 import exceptions.DomainError
-import user.User
-import user.UserId
 
 
 interface UserRepository {

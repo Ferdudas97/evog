@@ -69,6 +69,13 @@
             <artifactId>arrow-core</artifactId>
             <version>0.8.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.arrow-kt/arrow-extras-extensions -->
+        <dependency>
+            <groupId>io.arrow-kt</groupId>
+            <artifactId>arrow-extras-extensions</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/com.github.salomonbrys.kodein/kodein -->
         <dependency>

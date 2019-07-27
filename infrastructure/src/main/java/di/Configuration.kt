@@ -1,5 +1,7 @@
 package org.agh.eaiib.di
 
+import account.repository.AccountRepository
+import account.repository.UserRepository
 import com.github.salomonbrys.kodein.*
 import command.account.handler.ChangePasswordHandler
 import command.account.handler.CreateAccountHandler
@@ -14,8 +16,6 @@ import org.agh.eaiib.db.dao.UserDaoImpl
 import org.agh.eaiib.db.repository.AccountRepositoryImpl
 import org.agh.eaiib.integration.events.send
 import org.apache.kafka.clients.producer.Producer
-import repository.AccountRepository
-import repository.UserRepository
 
 
 fun dep() = Kodein {

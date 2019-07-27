@@ -1,7 +1,7 @@
 package account
 
+import account.user.User
 import org.joda.time.LocalDate
-import user.User
 
 data class Login(val value: String)
 data class Password(val value: String)
