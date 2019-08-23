@@ -1,6 +1,6 @@
 package domain.account.model.user.info
 
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 
 data class FirstName(val value: String)

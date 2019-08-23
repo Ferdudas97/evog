@@ -1,7 +1,7 @@
 package application.command.account
 
-import api.command.command.account.dto.AccountDto
-import api.command.command.account.dto.UserDto
+import api.command.account.dto.AccountDto
+import api.command.account.dto.UserDto
 import domain.account.model.Account
 import domain.account.model.Login
 import domain.account.model.Password
@@ -14,14 +14,11 @@ import java.util.*
 object AccountDtoMapper {
     fun mapToDto(account: Account): AccountDto = AccountDto(
             login = account.login.value,
-            password = account.password.value,
-            user = UserDtoMapper.mapToDto(account.user)
-
+            password = account.password.value
     )
 
     fun mapToDomain(dto: AccountDto): Account = Account(login = Login(dto.login),
-            password = Password(dto.password),
-            user = UserDtoMapper.mapToDomain(dto.user))
+            password = Password(dto.password))
 }
 
 object UserDtoMapper {
@@ -34,7 +31,9 @@ object UserDtoMapper {
             birthDate = user.personalInfo.birthDate.date,
             sex = user.personalInfo.sex,
             email = user.contactInfo.email?.value,
-            phoneNumber = user.contactInfo.phoneNumber?.number
+            phoneNumber = user.contactInfo.phoneNumber?.number,
+            accountDto = AccountDtoMapper.mapToDto(user.account)
+
     )
 
     fun mapToDomain(dto: UserDto): User = User(id = UserId(dto.id ?: UUID.randomUUID().toString()),
@@ -43,5 +42,6 @@ object UserDtoMapper {
                     Description(dto.description!!),
                     dto.sex),
             contactInfo = ContactInfo(phoneNumber = dto.phoneNumber?.let { PhoneNumber(it) },
-                    email = dto.email?.let { Email(it) }))
+                    email = dto.email?.let { Email(it) }),
+            account = AccountDtoMapper.mapToDomain(dto.accountDto))
 }

@@ -1,11 +1,9 @@
 package org.agh.eaiib.db.entity.account
-import org.agh.eaiib.db.entity.user.UserEntity
-import org.joda.time.DateTime
+
+import org.bson.codecs.pojo.annotations.BsonId
 
 
 data class AccountEntity(
+        @BsonId
         val login: String,
-        val password: String,
-        val creationDate: DateTime? = null,
-        val user: UserEntity
-)
+        val password: String)

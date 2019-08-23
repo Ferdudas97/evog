@@ -10,16 +10,15 @@ import exceptions.DomainError
 
 
 interface UserRepository {
-    fun save(user: User): Either<DomainError, User>
-    fun findById(id: UserId): User?
-    fun update(user: User): Either<DomainError, User>
-    fun delete(userId: UserId): Either<DomainError, Unit>
+    suspend fun save(user: User): Either<DomainError, User>
+    suspend fun findById(id: UserId): User?
+    suspend fun update(user: User): Either<DomainError, User>
+    suspend fun delete(userId: UserId): Either<DomainError, Unit>
 }
 
 interface AccountRepository {
-    fun save(account: Account): Either<DomainError, Account>
-    fun findByCredentials(log: Login, password: Password): Account?
-    fun update(account: Account): Either<DomainError, Account>
+    suspend fun findByCredentials(log: Login, password: Password): Account?
+    suspend fun update(account: Account): Either<DomainError, Account>
 
 
 }

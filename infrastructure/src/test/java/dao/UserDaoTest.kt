@@ -1,43 +1,49 @@
 package org.agh.eaiib.dao
 
+import db.dao.account.UserDaoImpl
 import domain.account.model.user.info.Sex
-import io.kotlintest.Spec
 import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
-import org.agh.eaiib.db.dao.UserDaoImpl
+import org.agh.eaiib.db.entity.account.AccountEntity
 import org.agh.eaiib.db.entity.user.UserEntity
-import org.joda.time.DateTime
+import org.litote.kmongo.coroutine.coroutine
+import org.litote.kmongo.reactivestreams.KMongo
+import java.time.LocalDate
 import java.util.*
 
 
 class UserDaoTest : StringSpec() {
 
-    val userDao = UserDaoImpl();
+    private val userDao = UserDaoImpl(KMongo.createClient().coroutine.getDatabase("evgo"));
 
-    override fun beforeSpec(spec: Spec) {
-        super.beforeSpec(spec)
-        init()
-    }
 
-    val id = UUID.randomUUID().toString()
-    val userEntity = UserEntity(
+    private val id = "id"
+    private val userEntity = UserEntity(
             id = id,
-            birthDate = DateTime.now().withoutTime(), firstName = "Radek",
-            lastName = "chrzanowski"
-            , sex = Sex.MALE)
+            birthDate = LocalDate.now(), firstName = "Radek",
+            lastName = "chrzanowski",
+            sex = Sex.MALE,
+            account = AccountEntity("lol", "lol123"))
 
     init {
-        "should save new account.model.user" {
+        "should save new user" {
 
             userDao.save(userEntity)
             val userFromDb = userDao.findById(id)
 
             userFromDb shouldBe userEntity
 
+            val account = userDao.findByCredentials(userFromDb!!.account.login, userFromDb.account.password)
+            account shouldBe userFromDb
         }
 
-        "should update account.model.user which is saved" {
+        "should find by credentials user which is saved" {
+            val userFromDb = userDao.findByCredentials("lol", "lol123")
+
+            userFromDb shouldBe userEntity
+        }
+        "should update user which is saved" {
             val updated = userEntity.copy(lastName = "test2")
             userDao.update(updated)
             val userFromDb = userDao.findById(id)
@@ -45,13 +51,10 @@ class UserDaoTest : StringSpec() {
             userFromDb shouldBe updated
         }
 
-        "should not update account.model.user which isn't saved" {
+
+        "should not update user which isn't saved" {
             val newId = UUID.randomUUID().toString()
-            val entity = UserEntity(
-                    id = newId,
-                    birthDate = DateTime.now().withoutTime(), firstName = "Radek123",
-                    lastName = "chrzanowsk132i"
-                    , sex = Sex.MALE)
+            val entity = userEntity.copy(id = "notSavedId")
             userDao.update(entity)
             val userFromDb = userDao.findById(newId)
 

@@ -1,5 +1,8 @@
 package org.agh.eaiib.repository
 
+import db.dao.account.UserDaoImpl
+import db.repository.UserRepositoryImpl
+import db.repository.account.AccountRepositoryImpl
 import domain.account.model.Account
 import domain.account.model.Login
 import domain.account.model.Password
@@ -10,53 +13,45 @@ import io.kotlintest.matchers.boolean.shouldBeTrue
 import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.specs.StringSpec
-import org.agh.eaiib.dao.init
-import org.agh.eaiib.db.dao.AccountDaoImpl
-import org.agh.eaiib.db.dao.UserDaoImpl
-import org.agh.eaiib.db.repository.AccountRepositoryImpl
-import org.joda.time.LocalDate
-import java.util.*
+import org.litote.kmongo.coroutine.coroutine
+import org.litote.kmongo.reactivestreams.KMongo
+import java.time.LocalDate
 
-class AccountRepositoryTest : StringSpec() {
+class UserRepositoryTest : StringSpec() {
+    private val db = UserDaoImpl(KMongo.createClient().coroutine.getDatabase("evog"));
+    private val accountRepository = AccountRepositoryImpl(db)
+    private val userRepository = UserRepositoryImpl(db)
 
-    val accountRepository = AccountRepositoryImpl(AccountDaoImpl(UserDaoImpl()))
-
+    private val user = User(
+            id = UserId("id"),
+            personalInfo = PersonalInfo(FirstName("radek"),
+                    LastName("chrzanowski"),
+                    BirthDate(LocalDate.now()),
+                    null,
+                    Sex.MALE),
+            contactInfo = ContactInfo(PhoneNumber("576956962"),
+                    Email("ads@pdasd.pl")),
+            account = Account(Login("lol"), Password("lol123")))
 
     init {
-        init()
-        "should save valid account" {
-            val account = Account(Login("login"),
-                    Password("lol123"),
-                    User(UserId(UUID.randomUUID().toString()), PersonalInfo(FirstName("radek"),
-                            LastName("chrzanowski"),
-                            BirthDate(LocalDate.now()),
-                            null,
-                            Sex.MALE),
-                            ContactInfo(PhoneNumber("576956962"),
-                                    Email("ads@pdasd.pl"))))
-
-            val result = accountRepository.save(account)
+        "should save valid user" {
+            val result = userRepository.save(user)
             result.isRight().shouldBeTrue()
-            val accountFromDb = accountRepository.findByCredentials(account.model.Login("login"),
-                    account.model.Password("lol123"))
+            val userFromDb = userRepository.findById(UserId("id"))
+            userFromDb.shouldNotBeNull()
+            val accountFromDb = accountRepository.findByCredentials(Login("lol"),
+                    Password("lol123"))
             accountFromDb.shouldNotBeNull()
+
         }
 
-        "should not save invalid account" {
-            val account = Account(Login("login1"),
-                    Password("lol123"),
-                    User(UserId(UUID.randomUUID().toString()), PersonalInfo(FirstName("radek"),
-                            LastName("chrzanowski"),
-                            BirthDate(LocalDate.now()),
-                            null,
-                            Sex.MALE),
-                            ContactInfo(PhoneNumber("adasdasd"),
-                                    Email("ads@pdasd.pl"))))
+        "should not save invalid user" {
 
-            val result = accountRepository.save(account)
+            val result = userRepository.save(user.copy(contactInfo =
+            user.contactInfo.copy(email = Email("@"))))
             result.isLeft().shouldBeTrue()
-            val accountFromDb = accountRepository.findByCredentials(account.model.Login("login1"),
-                    account.model.Password("lol123"))
+            val accountFromDb = accountRepository.findByCredentials(Login("login1"),
+                    Password("lol123"))
             accountFromDb.shouldBeNull()
         }
     }

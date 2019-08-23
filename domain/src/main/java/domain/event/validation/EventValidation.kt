@@ -4,13 +4,14 @@ import arrow.core.Either
 import arrow.core.flatMap
 import arrow.core.left
 import arrow.core.right
-import domain.event.model.*
+import domain.event.model.Event
+import domain.event.model.details.*
 import domain.event.model.participiant.Organizator
 import exceptions.ValidationError
 
 
-fun Event.validate(): Either<ValidationError, Event> = localization.validate()
-        .flatMap { organizers.validete() }
+fun Event.validate(): Either<ValidationError, Event> = organizers.validete()
+        .flatMap { details.validate() }
         .map { this }
 
 
@@ -21,7 +22,10 @@ private fun Set<Organizator>.validete(): Either<ValidationError, Set<Organizator
 } else ValidationError(ORGANIZERS_VALIDATION_MSG).left()
 
 
-fun Localization.validate() = point.validate().map { this }
+fun EventDetails.validate(): Either<ValidationError, EventDetails> = localization.validate()
+        .map { this }
+
+fun Localization.validate(): Either<ValidationError, Localization> = point.validate().map { this }
 
 fun GeoPoint.validate(): Either<ValidationError, GeoPoint> {
 

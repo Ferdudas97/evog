@@ -20,9 +20,7 @@ import io.ktor.routing.get
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import org.agh.eaiib.db.MyDatabase
 import org.agh.eaiib.di.dep
-import org.agh.eaiib.endpoint.accountRoutes
 import org.agh.eaiib.endpoint.userRoute
 import org.slf4j.event.Level
 
@@ -34,7 +32,6 @@ fun main(args: Array<String>): Unit {
 
 
 fun Application.kodeinApp(testing: Boolean = false) {
-    MyDatabase.init()
     module(dep(), testing)
 
 }
@@ -72,8 +69,7 @@ fun Application.module(kodein: Kodein, testing: Boolean = false) {
 
 
     routing {
-        userRoute(kodein.instance())
-        accountRoutes(kodein.instance(), kodein.instance())
+        userRoute(kodein.instance(), kodein.instance(), kodein.instance())
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }
