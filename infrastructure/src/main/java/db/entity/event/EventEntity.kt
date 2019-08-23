@@ -6,16 +6,18 @@ import org.bson.codecs.pojo.annotations.BsonId
 import java.time.LocalDateTime
 
 
-data class Participiant(val id: String,
-                        val firstName: String,
-                        val lastName: String,
-                        val age: Int)
+data class ParticipiantEntity(
+        @BsonId
+        val id: String,
+        val firstName: String,
+        val lastName: String,
+        val age: Int)
 
 data class EventEntity(
         @BsonId
         val id: String,
-        val guests: Set<String>,
-        val organizers: Set<String>,
+        val guests: Set<ParticipiantEntity>,
+        val organizers: Set<ParticipiantEntity>,
         val status: Status,
         val details: DetailsEntity
 )
