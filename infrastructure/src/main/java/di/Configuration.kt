@@ -42,6 +42,7 @@ private fun repositories() = Kodein {
     extend(dao())
     bind<AccountRepository>() with singleton { AccountRepositoryImpl(instance()) }
     bind<UserRepository>() with singleton { UserRepositoryImpl(instance()) }
+
     bind<EventRepository>() with singleton { EventRepositoryImpl(instance()) }
 }
 

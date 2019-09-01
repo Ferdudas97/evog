@@ -21,6 +21,7 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.agh.eaiib.di.dep
+import org.agh.eaiib.endpoint.eventRoute
 import org.agh.eaiib.endpoint.userRoute
 import org.slf4j.event.Level
 
@@ -70,6 +71,7 @@ fun Application.module(kodein: Kodein, testing: Boolean = false) {
 
     routing {
         userRoute(kodein.instance(), kodein.instance(), kodein.instance())
+        eventRoute(kodein.instance(), kodein.instance(), kodein.instance())
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }
