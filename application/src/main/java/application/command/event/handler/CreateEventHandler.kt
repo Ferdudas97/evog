@@ -12,7 +12,8 @@ import exceptions.DomainError
 import integration.DomainEvent
 
 
-class CreateEventHandler(val eventRepository: EventRepository, val sendEvent: (DomainEvent) -> Unit) : EventCommandHandler<EventCommand.Create, EventResult.Created>() {
+class CreateEventHandler(private val eventRepository: EventRepository,
+                         private val sendEvent: (DomainEvent) -> Unit) : EventCommandHandler<EventCommand.Create, EventResult.Created>() {
 
     override suspend fun handle(command: EventCommand.Create): Either<DomainError, EventResult.Created> {
         return command.eventDto

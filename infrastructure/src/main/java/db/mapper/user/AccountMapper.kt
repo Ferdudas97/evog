@@ -1,4 +1,4 @@
-package org.agh.eaiib.db.mapper
+package db.mapper.user
 
 import domain.account.model.Account
 import domain.account.model.Login
@@ -6,12 +6,13 @@ import domain.account.model.Password
 import org.agh.eaiib.db.entity.account.AccountEntity
 
 
-object AccountMapper {
-    fun mapToEntity(account: Account): AccountEntity = AccountEntity(
-            login = account.login.value,
-            password = account.password.value
-    )
+fun Account.toEntity(): AccountEntity = AccountEntity(
+        login = login.value,
+        password = password.value,
+        user = user.toEntity()
 
-    fun mapToDomain(entity: AccountEntity): Account = Account(login = Login(entity.login),
-            password = Password(entity.password))
-}
+)
+
+fun AccountEntity.toDomain(): Account = Account(login = Login(login),
+        password = Password(password),
+        user = user.toDomain())

@@ -13,6 +13,7 @@ import exceptions.ValidationError
 fun Account.validateAccount(): Either<DomainError, Account> {
 
     return password.validate()
+            .flatMap { user.validate() }
             .map { this }
 }
 

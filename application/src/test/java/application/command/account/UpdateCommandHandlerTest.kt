@@ -1,6 +1,5 @@
 package application.command.account
 
-import api.command.account.dto.AccountDto
 import api.command.account.dto.UserDto
 import api.command.account.user.UserCommand
 import api.command.account.user.UserCommandResult
@@ -16,10 +15,11 @@ import java.time.LocalDate
 
 class UpdateCommandHandlerTest : StringSpec() {
 
-    val repositoryMock = UserRepositoryMock()
-    val handler = UpdateUserHandler(repositoryMock, {})
+    private val repositoryMock = UserRepositoryMock()
+    private val handler = UpdateUserHandler(repositoryMock, {})
 
     init {
+
         "User should be updated when exists" {
             val dto = UserDto(id = "1", firstName = "radek",
                     lastName = "Chrzanowski",
@@ -27,9 +27,8 @@ class UpdateCommandHandlerTest : StringSpec() {
                     description = "description",
                     sex = Sex.MALE,
                     phoneNumber = "123 123 4234",
-                    email = "123123@hmail.com",
-                    accountDto = AccountDto("lol", "lol123"))
-            repositoryMock.save(UserDtoMapper.mapToDomain(dto.copy(lastName = "")))
+                    email = "123123@hmail.com")
+            repositoryMock.update(dto.copy(lastName = "").toDomain())
             val result = handler.handle(command = UserCommand.Update(dto))
 
             result shouldBe UserCommandResult.Update(dto).right()
@@ -42,8 +41,7 @@ class UpdateCommandHandlerTest : StringSpec() {
                     description = "description",
                     sex = Sex.MALE,
                     phoneNumber = "123 123 4234",
-                    email = "123123@hmail.com",
-                    accountDto = AccountDto("lol", "lol123"))
+                    email = "123123@hmail.com")
             val result = handler.handle(command = UserCommand.Update(dto))
 
             result shouldBe Left(UpdateError("error"))

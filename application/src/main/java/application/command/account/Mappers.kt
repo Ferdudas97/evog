@@ -11,37 +11,30 @@ import domain.account.model.user.info.*
 import java.util.*
 
 
-object AccountDtoMapper {
-    fun mapToDto(account: Account): AccountDto = AccountDto(
-            login = account.login.value,
-            password = account.password.value
-    )
+fun Account.toDto(): AccountDto = AccountDto(
+        login = login.value,
+        password = password.value,
+        user = user.toDto()
+)
 
-    fun mapToDomain(dto: AccountDto): Account = Account(login = Login(dto.login),
-            password = Password(dto.password))
-}
+fun AccountDto.toDomain(): Account = Account(login = Login(login),
+        password = Password(password), user = user.toDomain())
 
-object UserDtoMapper {
 
-    fun mapToDto(user: User): UserDto = UserDto(
-            id = user.id.id,
-            firstName = user.personalInfo.firstName.value,
-            lastName = user.personalInfo.lastName.value,
-            description = user.personalInfo.description?.value,
-            birthDate = user.personalInfo.birthDate.date,
-            sex = user.personalInfo.sex,
-            email = user.contactInfo.email?.value,
-            phoneNumber = user.contactInfo.phoneNumber?.number,
-            accountDto = AccountDtoMapper.mapToDto(user.account)
+fun User.toDto(): UserDto = UserDto(
+        id = id.id,
+        firstName = personalInfo.firstName.value,
+        lastName = personalInfo.lastName.value,
+        description = personalInfo.description?.value,
+        birthDate = personalInfo.birthDate.date,
+        sex = personalInfo.sex,
+        email = contactInfo.email?.value,
+        phoneNumber = contactInfo.phoneNumber?.number
+)
 
-    )
-
-    fun mapToDomain(dto: UserDto): User = User(id = UserId(dto.id ?: UUID.randomUUID().toString()),
-            personalInfo = PersonalInfo(FirstName(dto.firstName),
-                    LastName(dto.lastName), BirthDate(dto.birthDate),
-                    Description(dto.description!!),
-                    dto.sex),
-            contactInfo = ContactInfo(phoneNumber = dto.phoneNumber?.let { PhoneNumber(it) },
-                    email = dto.email?.let { Email(it) }),
-            account = AccountDtoMapper.mapToDomain(dto.accountDto))
-}
+fun UserDto.toDomain(): User = User(id = UserId(id ?: UUID.randomUUID().toString()),
+        personalInfo = PersonalInfo(FirstName(firstName),
+                LastName(lastName), BirthDate(birthDate),
+                Description(description!!), sex),
+        contactInfo = ContactInfo(phoneNumber = phoneNumber?.let { PhoneNumber(it) },
+                email = email?.let { Email(it) }))

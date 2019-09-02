@@ -4,7 +4,9 @@ import domain.account.model.user.info.Sex
 import java.time.LocalDate
 
 
-data class AccountDto(val login: String, val password: String)
+data class AccountDto(val login: String,
+                      val password: String,
+                      val user: UserDto)
 
 data class UserDto(val id: String?,
                    val firstName: String,
@@ -13,5 +15,4 @@ data class UserDto(val id: String?,
                    val description: String?,
                    val sex: Sex,
                    val phoneNumber: String?,
-                   val accountDto: AccountDto,
                    val email: String?)

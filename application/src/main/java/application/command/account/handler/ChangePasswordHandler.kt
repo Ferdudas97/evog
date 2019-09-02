@@ -1,10 +1,10 @@
 package application.command.account.handler
 
-import api.command.account.event.UserEvent
-import api.command.account.user.UserCommand
-import api.command.account.user.UserCommandResult
-import api.command.account.user.handler.UserCommandHandler
-import application.command.account.AccountDtoMapper
+import api.command.account.AccountCommand
+import api.command.account.event.AccountEvent
+import api.command.account.handler.AccountCommandHandler
+import api.command.account.result.AccountCommandResult
+import application.command.account.toDto
 import arrow.core.Either
 import arrow.core.Left
 import arrow.peek
@@ -16,10 +16,11 @@ import exceptions.SavingError
 import integration.DomainEvent
 
 
-class ChangePasswordHandler(private val accountRepository: AccountRepository, private val eventSender: (DomainEvent) -> Unit) : UserCommandHandler<UserCommand.ChangePassword, UserCommandResult.UpdatePassword>() {
+class ChangePasswordHandler(private val accountRepository: AccountRepository,
+                            private val eventSender: (DomainEvent) -> Unit) : AccountCommandHandler<AccountCommand.ChangePassword, AccountCommandResult.UpdatePassword>() {
 
 
-    override suspend fun handle(command: UserCommand.ChangePassword): Either<DomainError, UserCommandResult.UpdatePassword> {
+    override suspend fun handle(command: AccountCommand.ChangePassword): Either<DomainError, AccountCommandResult.UpdatePassword> {
         val login = Login(command.login)
         val password = Password(command.password)
         val account = accountRepository.findByCredentials(login, password)
@@ -27,9 +28,9 @@ class ChangePasswordHandler(private val accountRepository: AccountRepository, pr
             null -> Left(SavingError(""))
             else -> account.copy(password = password)
                     .let { accountRepository.update(it) }
-                    .map { AccountDtoMapper.mapToDto(it) }
-                    .peek { eventSender.apply { UserEvent.PasswordUpdated(command.login, command.password) } }
-                    .map { UserCommandResult.UpdatePassword(it) }
+                    .map { it.toDto() }
+                    .peek { eventSender.apply { AccountEvent.PasswordUpdated(command.login, command.password) } }
+                    .map { AccountCommandResult.UpdatePassword(it) }
 
         }
     }

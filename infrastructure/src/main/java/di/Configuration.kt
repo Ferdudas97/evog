@@ -7,8 +7,8 @@ import application.command.event.handler.CancelEventHandler
 import application.command.event.handler.CreateEventHandler
 import application.command.event.handler.UpdateEventHandler
 import com.github.salomonbrys.kodein.*
-import db.dao.account.UserDao
-import db.dao.account.UserDaoImpl
+import db.dao.account.AccountDao
+import db.dao.account.AccountDaoImpl
 import db.repository.UserRepositoryImpl
 import db.repository.account.AccountRepositoryImpl
 import domain.account.repository.AccountRepository
@@ -29,13 +29,13 @@ import org.litote.kmongo.reactivestreams.KMongo
 fun dep() = Kodein {
     extend(repositories())
     bind<(DomainEvent) -> Unit>() with singleton { sender(ProducerFactory.createProducer()) }
-    bind<ChangePasswordHandler>() with provider { ChangePasswordHandler(instance(), instance()) }
-    bind<CreateUserCommandHandler>() with provider { CreateUserCommandHandler(instance(), instance()) }
-    bind<UpdateUserHandler>() with provider { UpdateUserHandler(instance(), instance()) }
+    bind<ChangePasswordHandler>() with singleton { ChangePasswordHandler(instance(), instance()) }
+    bind<CreateUserCommandHandler>() with singleton { CreateUserCommandHandler(instance(), instance()) }
+    bind<UpdateUserHandler>() with singleton { UpdateUserHandler(instance(), instance()) }
 
-    bind<CreateEventHandler>() with provider { CreateEventHandler(instance(), instance()) }
-    bind<CancelEventHandler>() with provider { CancelEventHandler(instance(), instance()) }
-    bind<UpdateEventHandler>() with provider { UpdateEventHandler(instance(), instance()) }
+    bind<CreateEventHandler>() with singleton { CreateEventHandler(instance(), instance()) }
+    bind<CancelEventHandler>() with singleton { CancelEventHandler(instance(), instance()) }
+    bind<UpdateEventHandler>() with singleton { UpdateEventHandler(instance(), instance()) }
 }
 
 private fun repositories() = Kodein {
@@ -48,7 +48,7 @@ private fun repositories() = Kodein {
 
 private fun dao() = Kodein {
     bind<EventDao>() with singleton { EventDaoImpl(instance()) }
-    bind<UserDao>() with singleton { UserDaoImpl(instance()) }
+    bind<AccountDao>() with singleton { AccountDaoImpl(instance()) }
     bind<CoroutineDatabase>() with provider { KMongo.createClient().coroutine.getDatabase("evog") }
 
 }
