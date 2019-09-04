@@ -1,4 +1,4 @@
-package application.command.account
+package application.mapper.user
 
 import api.command.account.dto.AccountDto
 import api.command.account.dto.UserDto

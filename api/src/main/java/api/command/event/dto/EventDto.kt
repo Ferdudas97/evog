@@ -11,6 +11,7 @@ data class ParticipantDto(val id: String,
                           val age: Int)
 
 data class EventDto(val id: String,
+                    val name: String,
                     val status: Status,
                     val details: EventDetailsDto,
                     val organizers: Set<ParticipantDto>,
@@ -29,3 +30,23 @@ data class EventDetailsDto(val minAllowedAge: Int?,
 
 data class LocalizationDto(val latitude: Double,
                            val longitude: Double)
+
+data class EventList(val events: List<EventSnapshot>)
+
+data class EventSnapshot(val name: String,
+                         val localization: LocalizationDto,
+                         val minNumberOfPeople: Int?,
+                         val maxNumberOfPeople: Int?,
+                         val numberOfGuests: Int,
+                         val category: Category)
+
+data class EventFilterDto(val name: String? = null,
+                          val minAllowedAge: Int? = null,
+                          val maxAllowedAge: Int? = null,
+                          val startTime: LocalDateTime? = null,
+                          val endTime: LocalDateTime? = null,
+                          val localizationRadius: Double,
+                          val maxNumberOfPeople: Int? = null,
+                          val minNumberOfPeople: Int? = null,
+                          val category: Category? = null,
+                          val localization: LocalizationDto)

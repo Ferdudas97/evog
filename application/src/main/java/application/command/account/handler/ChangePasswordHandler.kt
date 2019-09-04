@@ -4,7 +4,7 @@ import api.command.account.AccountCommand
 import api.command.account.event.AccountEvent
 import api.command.account.handler.AccountCommandHandler
 import api.command.account.result.AccountCommandResult
-import application.command.account.toDto
+import application.mapper.user.toDto
 import arrow.core.Either
 import arrow.core.Left
 import arrow.peek

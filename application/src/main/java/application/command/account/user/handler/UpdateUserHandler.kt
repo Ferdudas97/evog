@@ -4,7 +4,7 @@ import api.command.account.event.AccountEvent
 import api.command.account.user.UserCommand
 import api.command.account.user.UserCommandResult
 import api.command.account.user.handler.UserCommandHandler
-import application.command.account.toDomain
+import application.mapper.user.toDomain
 import arrow.core.Either
 import arrow.peek
 import domain.account.repository.UserRepository

@@ -3,8 +3,8 @@ package application.command.account.handler
 import api.command.account.AccountCommand
 import api.command.account.handler.AccountCommandHandler
 import api.command.account.result.AccountCommandResult
-import application.command.account.toDomain
-import application.command.account.toDto
+import application.mapper.user.toDomain
+import application.mapper.user.toDto
 import arrow.core.Either
 import domain.account.repository.AccountRepository
 import exceptions.DomainError

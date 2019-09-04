@@ -6,6 +6,7 @@ import application.command.account.user.handler.UpdateUserHandler
 import application.command.event.handler.CancelEventHandler
 import application.command.event.handler.CreateEventHandler
 import application.command.event.handler.UpdateEventHandler
+import application.query.user.handler.FindUserByIdQueryHandler
 import com.github.salomonbrys.kodein.*
 import db.dao.account.AccountDao
 import db.dao.account.AccountDaoImpl
@@ -36,7 +37,9 @@ fun dep() = Kodein {
     bind<CreateEventHandler>() with singleton { CreateEventHandler(instance(), instance()) }
     bind<CancelEventHandler>() with singleton { CancelEventHandler(instance(), instance()) }
     bind<UpdateEventHandler>() with singleton { UpdateEventHandler(instance(), instance()) }
+    bind<FindUserByIdQueryHandler>() with singleton { FindUserByIdQueryHandler(instance()) }
 }
+
 
 private fun repositories() = Kodein {
     extend(dao())

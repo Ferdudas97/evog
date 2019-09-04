@@ -16,6 +16,7 @@ data class ParticipiantEntity(
 data class EventEntity(
         @BsonId
         val id: String,
+        val name: String,
         val guests: Set<ParticipiantEntity>,
         val organizers: Set<ParticipiantEntity>,
         val status: Status,

@@ -1,6 +1,7 @@
 package org.agh.eaiib.db.repository.event
 
 import arrow.core.*
+import domain.event.filter.EventFilter
 import domain.event.model.Event
 import domain.event.model.EventId
 import domain.event.repository.EventRepository
@@ -14,6 +15,10 @@ import org.agh.eaiib.db.mapper.event.toEntity
 
 
 class EventRepositoryImpl(private val eventDao: EventDao) : EventRepository {
+    override suspend fun filtered(filter: EventFilter): List<Event> {
+        return eventDao.filtered(filter).map { it.toDomain() }
+    }
+
     override suspend fun save(event: Event): Either<DomainError, Event> = event.validate()
             .map { it.toEntity() }
             .flatMap { eventEntity ->

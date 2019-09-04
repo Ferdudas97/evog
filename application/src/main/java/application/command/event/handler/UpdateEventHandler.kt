@@ -4,7 +4,7 @@ import api.command.event.EventCommand
 import api.command.event.EventCommandHandler
 import api.command.event.result.EventResult
 import application.command.event.msg.EventMessage
-import application.command.event.toDomain
+import application.mapper.event.toDomain
 import arrow.core.Either
 import arrow.core.flatMap
 import arrow.peek

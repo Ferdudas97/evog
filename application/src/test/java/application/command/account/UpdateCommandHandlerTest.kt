@@ -4,6 +4,7 @@ import api.command.account.dto.UserDto
 import api.command.account.user.UserCommand
 import api.command.account.user.UserCommandResult
 import application.command.account.user.handler.UpdateUserHandler
+import application.mapper.user.toDomain
 import arrow.core.Left
 import arrow.core.right
 import domain.account.model.user.info.Sex
