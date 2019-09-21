@@ -1,5 +1,9 @@
 package org.agh.eaiib
 
+import com.fasterxml.jackson.core.util.DefaultIndenter
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.instance
 import io.ktor.application.Application
@@ -66,6 +70,12 @@ fun Application.module(kodein: Kodein, testing: Boolean = false) {
 
     install(ContentNegotiation) {
         jackson {
+            configure(SerializationFeature.INDENT_OUTPUT, true)
+            setDefaultPrettyPrinter(DefaultPrettyPrinter().apply {
+                indentArraysWith(DefaultPrettyPrinter.FixedSpaceIndenter.instance)
+                indentObjectsWith(DefaultIndenter("  ", "\n"))
+            })
+            registerModule(JavaTimeModule())  // support java.time.* types
         }
     }
 

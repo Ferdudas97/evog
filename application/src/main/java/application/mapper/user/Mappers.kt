@@ -1,6 +1,7 @@
 package application.mapper.user
 
 import api.command.account.dto.AccountDto
+import api.command.account.dto.CredentialsDto
 import api.command.account.dto.UserDto
 import domain.account.model.Account
 import domain.account.model.Login
@@ -12,13 +13,12 @@ import java.util.*
 
 
 fun Account.toDto(): AccountDto = AccountDto(
-        login = login.value,
-        password = password.value,
+        credentials = CredentialsDto(login.value, password.value),
         user = user.toDto()
 )
 
-fun AccountDto.toDomain(): Account = Account(login = Login(login),
-        password = Password(password), user = user.toDomain())
+fun AccountDto.toDomain(): Account = Account(login = Login(credentials.login),
+        password = Password(credentials.password), user = user.toDomain())
 
 
 fun User.toDto(): UserDto = UserDto(
@@ -35,6 +35,6 @@ fun User.toDto(): UserDto = UserDto(
 fun UserDto.toDomain(): User = User(id = UserId(id ?: UUID.randomUUID().toString()),
         personalInfo = PersonalInfo(FirstName(firstName),
                 LastName(lastName), BirthDate(birthDate),
-                Description(description!!), sex),
+                description?.let(::Description), sex),
         contactInfo = ContactInfo(phoneNumber = phoneNumber?.let { PhoneNumber(it) },
                 email = email?.let { Email(it) }))

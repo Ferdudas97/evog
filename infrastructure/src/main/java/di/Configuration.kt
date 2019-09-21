@@ -16,7 +16,6 @@ import domain.account.repository.AccountRepository
 import domain.account.repository.UserRepository
 import domain.event.repository.EventRepository
 import integration.DomainEvent
-import integration.ProducerFactory
 import org.agh.eaiib.db.dao.event.EventDao
 import org.agh.eaiib.db.dao.event.EventDaoImpl
 import org.agh.eaiib.db.repository.event.EventRepositoryImpl
@@ -29,7 +28,7 @@ import org.litote.kmongo.reactivestreams.KMongo
 
 fun dep() = Kodein {
     extend(repositories())
-    bind<(DomainEvent) -> Unit>() with singleton { sender(ProducerFactory.createProducer()) }
+    bind<(DomainEvent) -> Unit>() with singleton { { e: DomainEvent -> } }
     bind<ChangePasswordHandler>() with singleton { ChangePasswordHandler(instance(), instance()) }
     bind<CreateUserCommandHandler>() with singleton { CreateUserCommandHandler(instance(), instance()) }
     bind<UpdateUserHandler>() with singleton { UpdateUserHandler(instance(), instance()) }
