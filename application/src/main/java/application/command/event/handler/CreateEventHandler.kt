@@ -5,6 +5,7 @@ import api.command.event.EventCommandHandler
 import api.command.event.result.EventResult
 import application.command.event.msg.EventMessage
 import application.mapper.event.toDomain
+import application.mapper.event.toDto
 import arrow.core.Either
 import arrow.peek
 import domain.event.repository.EventRepository
@@ -20,7 +21,7 @@ class CreateEventHandler(private val eventRepository: EventRepository,
                 .toDomain()
                 .let { eventRepository.save(it) }
                 .peek { sendEvent(EventMessage.Created(it)) }
-                .map { event -> EventResult.Created(event.id.value) }
+                .map { event -> EventResult.Created(event.toDto()) }
     }
 
 }

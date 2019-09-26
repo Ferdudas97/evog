@@ -10,12 +10,11 @@ data class AccountDto(val credentials: CredentialsDto,
 data class UserDto(val id: String?,
                    val firstName: String,
                    val lastName: String,
-//                   @JsonFormat(pattern = "YYYY-MM-DD")
                    val birthDate: LocalDate,
-                   val description: String?,
+                   val description: String? = null,
                    val sex: Sex,
-                   val phoneNumber: String?,
-                   val email: String?)
+                   val phoneNumber: String? = null,
+                   val email: String? = null)
 
 data class CredentialsDto(val login: String,
                           val password: String)

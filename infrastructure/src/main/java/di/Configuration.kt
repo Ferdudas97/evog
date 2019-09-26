@@ -6,6 +6,8 @@ import application.command.account.user.handler.UpdateUserHandler
 import application.command.event.handler.CancelEventHandler
 import application.command.event.handler.CreateEventHandler
 import application.command.event.handler.UpdateEventHandler
+import application.query.event.handler.FindEventByIdQueryHandler
+import application.query.event.handler.GetFilteredEventsQueryHandler
 import application.query.user.handler.FindUserByIdQueryHandler
 import com.github.salomonbrys.kodein.*
 import db.dao.account.AccountDao
@@ -16,6 +18,7 @@ import domain.account.repository.AccountRepository
 import domain.account.repository.UserRepository
 import domain.event.repository.EventRepository
 import integration.DomainEvent
+import kotlinx.coroutines.runBlocking
 import org.agh.eaiib.db.dao.event.EventDao
 import org.agh.eaiib.db.dao.event.EventDaoImpl
 import org.agh.eaiib.db.repository.event.EventRepositoryImpl
@@ -37,6 +40,8 @@ fun dep() = Kodein {
     bind<CancelEventHandler>() with singleton { CancelEventHandler(instance(), instance()) }
     bind<UpdateEventHandler>() with singleton { UpdateEventHandler(instance(), instance()) }
     bind<FindUserByIdQueryHandler>() with singleton { FindUserByIdQueryHandler(instance()) }
+    bind<FindEventByIdQueryHandler>() with singleton { FindEventByIdQueryHandler(instance()) }
+    bind<GetFilteredEventsQueryHandler>() with singleton { GetFilteredEventsQueryHandler(instance()) }
 }
 
 
@@ -51,7 +56,13 @@ private fun repositories() = Kodein {
 private fun dao() = Kodein {
     bind<EventDao>() with singleton { EventDaoImpl(instance()) }
     bind<AccountDao>() with singleton { AccountDaoImpl(instance()) }
-    bind<CoroutineDatabase>() with provider { KMongo.createClient().coroutine.getDatabase("evog") }
+    bind<CoroutineDatabase>() with provider {
+        val db = KMongo.createClient().coroutine.getDatabase("evog")
+        runBlocking {
+            db.drop()
+        }
+        db
+    }
 
 }
 

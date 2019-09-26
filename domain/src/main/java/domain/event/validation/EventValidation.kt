@@ -17,7 +17,8 @@ fun Event.validate(): Either<ValidationError, Event> = organizers.validete()
 
 const val ORGANIZERS_VALIDATION_MSG = "event should have minimum 1 organizer"
 
-private fun Set<Organizator>.validete(): Either<ValidationError, Set<Organizator>> = if (this.size > 1) {
+//Todo
+private fun Set<Organizator>.validete(): Either<ValidationError, Set<Organizator>> = if (this.isNotEmpty()) {
     this.right()
 } else ValidationError(ORGANIZERS_VALIDATION_MSG).left()
 

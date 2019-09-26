@@ -83,7 +83,7 @@ fun Application.module(kodein: Kodein, testing: Boolean = false) {
     routing {
         userRoute(kodein.instance(), kodein.instance())
         accountRoute(kodein.instance(), kodein.instance())
-        eventRoute(kodein.instance(), kodein.instance(), kodein.instance())
+        eventRoute(kodein.instance(), kodein.instance(), kodein.instance(), kodein.instance(), kodein.instance())
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }

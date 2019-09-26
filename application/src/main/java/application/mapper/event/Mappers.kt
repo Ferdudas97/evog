@@ -11,9 +11,10 @@ import domain.event.model.participiant.Age
 import domain.event.model.participiant.Guest
 import domain.event.model.participiant.Organizator
 import domain.event.model.participiant.ParticipantId
+import java.util.*
 
 
-fun EventDto.toDomain() = Event(id = EventId(id),
+fun EventDto.toDomain() = Event(id = EventId(id ?: UUID.randomUUID().toString()),
         name = EventName(name),
         details = details.toDomain(),
         status = status,
@@ -48,7 +49,7 @@ private fun EventDetails.toDto() = EventDetailsDto(minAllowedAge = ageLimit.min?
         category = category)
 
 
-fun List<Event>.toSnapshotList() = EventList(this.map { it.toSnapshotDto() })
+fun List<Event>.toSnapshotList() = this.map { it.toSnapshotDto() }
 
 private fun Event.toSnapshotDto() = EventSnapshot(name = name.value,
         localization = details.localization.toDto(),
