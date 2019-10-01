@@ -12,52 +12,53 @@ import domain.event.model.details.Category
 import java.time.LocalDate
 import java.time.LocalDateTime
 
+object MockData {
+    val user1 = UserDto(id = "1",
+            firstName = "Radek",
+            lastName = "Chrzanowski",
+            birthDate = LocalDate.parse("1997-04-20"),
+            description = "Radek",
+            sex = Sex.MALE,
+            email = "chrzrado@gmail.com",
+            phoneNumber = "576590022")
 
-val user1 = UserDto(id = "1",
-        firstName = "Radek",
-        lastName = "Chrzanowski",
-        birthDate = LocalDate.parse("1997-04-20"),
-        description = "Radek",
-        sex = Sex.MALE,
-        email = "chrzrado@gmail.com",
-        phoneNumber = "576590022")
+    val user2 = UserDto(id = "2",
+            firstName = "Sebastian",
+            lastName = "Chrzanowski",
+            birthDate = LocalDate.parse("1997-04-20"),
+            description = "Seba",
+            sex = Sex.MALE)
 
-val user2 = UserDto(id = "2",
-        firstName = "Sebastian",
-        lastName = "Chrzanowski",
-        birthDate = LocalDate.parse("1997-04-20"),
-        description = "Seba",
-        sex = Sex.MALE)
+    val user3 = UserDto(id = "3",
+            firstName = "Klaudia",
+            lastName = "Bednarz",
+            birthDate = LocalDate.parse("1997-05-07"),
+            description = "Klaudia",
+            sex = Sex.FEMALE)
 
-val user3 = UserDto(id = "3",
-        firstName = "Klaudia",
-        lastName = "Bednarz",
-        birthDate = LocalDate.parse("1997-05-07"),
-        description = "Klaudia",
-        sex = Sex.FEMALE)
+    val account1 = AccountDto(credentials = CredentialsDto("lol", "lol123"), user = user1)
+    val account3 = AccountDto(credentials = CredentialsDto("klaudia", "bednarz123"), user = user3)
+    val account2 = AccountDto(credentials = CredentialsDto("seba", "chrzanowski123"), user = user2)
 
-val account1 = AccountDto(credentials = CredentialsDto("lol", "lol123"), user = user1)
-val account3 = AccountDto(credentials = CredentialsDto("klaudia", "bednarz123"), user = user3)
-val account2 = AccountDto(credentials = CredentialsDto("seba", "chrzanowski123"), user = user2)
+    val accounts: List<AccountDto> = listOf(account1, account2, account3)
 
-val mockedAccounts: List<AccountDto> = listOf(account1, account2, account3)
+    val details = EventDetailsDto(minAllowedAge = 18,
+            maxAllowedAge = 24,
+            minNumberOfPeople = 1,
+            startDate = LocalDateTime.now().plusYears(1),
+            endTime = LocalDateTime.now().plusYears(1).plusDays(1),
+            localization = LocalizationDto(50.08, 19.901),
+            category = Category.PARTY)
 
-val details = EventDetailsDto(minAllowedAge = 18,
-        maxAllowedAge = 24,
-        minNumberOfPeople = 1,
-        startDate = LocalDateTime.now().plusYears(1),
-        endTime = LocalDateTime.now().plusYears(1).plusDays(1),
-        localization = LocalizationDto(0.0, 0.0),
-        category = Category.PARTY)
+    fun UserDto.toParticipiant() = ParticipantDto(id = id!!, firstName = firstName, lastName = lastName, age = 22)
+    val event1 = EventDto(name = "urodziny radka",
+            details = details,
+            organizers = setOf(user2.toParticipiant()),
+            guest = setOf())
+    val event2 = EventDto(name = "urodziny klaudia",
+            details = details,
+            organizers = setOf(user1.toParticipiant()),
+            guest = setOf(user2.toParticipiant()))
 
-fun UserDto.toParticipiant() = ParticipantDto(id = id!!, firstName = firstName, lastName = lastName, age = 22)
-val event1 = EventDto(name = "urodziny radka",
-        details = details,
-        organizers = setOf(user2.toParticipiant()),
-        guest = setOf())
-val event2 = EventDto(name = "urodziny klaudia",
-        details = details,
-        organizers = setOf(user1.toParticipiant()),
-        guest = setOf(user2.toParticipiant()))
-
-val mockedEvents = listOf(event1, event2)
+    val mockedEvents = listOf(event1, event2)
+}

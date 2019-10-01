@@ -26,7 +26,7 @@ fun EventDto.toDomain() = Event(id = EventId(id ?: UUID.randomUUID().toString())
 fun EventDetailsDto.toDomain() = EventDetails(
         ageLimit = AgeLimit(minAllowedAge?.let { Age(it) }, maxAllowedAge?.let { Age(it) }),
         description = description?.let { Description(it) },
-        localization = localization.toDoamin(),
+        localization = localization.toDomain(),
         period = Period(startDate, endTime),
         peopleLimit = PeopleLimit(minNumberOfPeople, maxNumberOfPeople),
         category = category)
@@ -53,13 +53,16 @@ fun List<Event>.toSnapshotList() = this.map { it.toSnapshotDto() }
 
 private fun Event.toSnapshotDto() = EventSnapshot(name = name.value,
         localization = details.localization.toDto(),
+        startTime = details.period.startTime,
+        endTime = details.period.endTime,
+        id = id.value,
         maxNumberOfPeople = details.peopleLimit.maxNumber,
         minNumberOfPeople = details.peopleLimit.minNumber,
         numberOfGuests = guests.size + organizers.size,
         category = details.category)
 
 
-private fun LocalizationDto.toDoamin() = Localization(GeoPoint(Longitude(longitude), Latitude(latitude)))
+private fun LocalizationDto.toDomain() = Localization(GeoPoint(Longitude(longitude), Latitude(latitude)))
 private fun Localization.toDto() = LocalizationDto(latitude = point.latitude.value, longitude = point.longitude.value)
 private fun Guest.toDto() = ParticipantDto(id = id.id, firstName = firstName.value, lastName = lastName.value, age = age.int)
 private fun Organizator.toDto() = ParticipantDto(id = id.id, firstName = firstName.value, lastName = lastName.value, age = age.int)

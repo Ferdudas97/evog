@@ -10,10 +10,10 @@ import domain.event.model.participiant.Age
 
 
 fun EventFilterDto.toDomain() = EventFilter(name = name,
-        ageRange = Range(min = minAllowedAge?.let { Age(it) },
-                max = maxAllowedAge?.let { Age(it) }),
+        ageRange = Range(min = Age(minAllowedAge ?: Int.MIN_VALUE),
+                max = Age(maxAllowedAge ?: Int.MAX_VALUE)),
         timeRange = Range(min = startTime, max = endTime),
-        peopleRange = Range(min = minNumberOfPeople, max = maxNumberOfPeople),
+        peopleRange = Range(min = minNumberOfPeople ?: Int.MIN_VALUE, max = maxNumberOfPeople ?: Int.MAX_VALUE),
         latitudeRange = localization.computeLatitudeRange(radius = localizationRadius),
         longitudeRange = localization.computeLongitudeRange(radius = localizationRadius))
 

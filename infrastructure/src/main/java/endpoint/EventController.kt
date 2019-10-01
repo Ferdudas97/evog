@@ -55,7 +55,7 @@ fun Route.eventRoute(cancelEventHandler: CancelEventHandler,
         }
     }
 
-    get("") {
+    post("/filter") {
         val filter = call.receive<EventFilterDto>()
         val snapshots = getFilteredEventsQueryHandler.exevute(EventQuery.FindBy(filter))
         call.respond(snapshots)

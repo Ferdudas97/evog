@@ -210,6 +210,7 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
+                            <jvmTarget>1.8</jvmTarget>
                             <experimentalCoroutines>enable</experimentalCoroutines>
                         </configuration>
                     </execution>
@@ -220,6 +221,7 @@
                         </goals>
                         <configuration>
                             <experimentalCoroutines>enable</experimentalCoroutines>
+                            <jvmTarget>1.8</jvmTarget>
                         </configuration>
                     </execution>
                 </executions>

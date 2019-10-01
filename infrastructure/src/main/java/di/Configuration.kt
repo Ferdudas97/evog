@@ -6,6 +6,8 @@ import application.command.account.user.handler.UpdateUserHandler
 import application.command.event.handler.CancelEventHandler
 import application.command.event.handler.CreateEventHandler
 import application.command.event.handler.UpdateEventHandler
+import application.mapper.event.toDomain
+import application.mapper.user.toDomain
 import application.query.event.handler.FindEventByIdQueryHandler
 import application.query.event.handler.GetFilteredEventsQueryHandler
 import application.query.user.handler.FindUserByIdQueryHandler
@@ -19,6 +21,7 @@ import domain.account.repository.UserRepository
 import domain.event.repository.EventRepository
 import integration.DomainEvent
 import kotlinx.coroutines.runBlocking
+import org.agh.eaiib.MockData
 import org.agh.eaiib.db.dao.event.EventDao
 import org.agh.eaiib.db.dao.event.EventDaoImpl
 import org.agh.eaiib.db.repository.event.EventRepositoryImpl
@@ -47,10 +50,18 @@ fun dep() = Kodein {
 
 private fun repositories() = Kodein {
     extend(dao())
-    bind<AccountRepository>() with singleton { AccountRepositoryImpl(instance()) }
+    bind<AccountRepository>() with singleton { AccountRepositoryImpl(instance()).apply {
+        runBlocking {
+            MockData.accounts.map { it.toDomain() }.forEach{ save(it)}
+        }
+    } }
     bind<UserRepository>() with singleton { UserRepositoryImpl(instance()) }
 
-    bind<EventRepository>() with singleton { EventRepositoryImpl(instance()) }
+    bind<EventRepository>() with singleton { EventRepositoryImpl(instance()).apply {
+        runBlocking {
+            MockData.mockedEvents.map { it.toDomain() }.forEach { save(it) }
+        }
+    } }
 }
 
 private fun dao() = Kodein {
