@@ -18,7 +18,7 @@ class UserRepositoryImpl(private val accountDao: AccountDao) : UserRepository {
 
 
     override suspend fun findById(log: UserId): User? {
-        return accountDao.findById(log.id)?.user?.toDomain()
+        return accountDao.findUserById(log.id)?.toDomain()
     }
 
 

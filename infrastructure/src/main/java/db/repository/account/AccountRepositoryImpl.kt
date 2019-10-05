@@ -36,7 +36,13 @@ class AccountRepositoryImpl(private val userDao: AccountDao) : AccountRepository
 
     override suspend fun save(account: Account): Either<DomainError, Account> {
         return account.validateAccount()
-                .flatMap { Try { userDao.save(account.toEntity()) }.toEither { SavingError(it.message ?: "") } }
+                .flatMap {
+                    Try {
+                        userDao.save(account.toEntity())
+                    }.toEither {
+                        SavingError(it.message ?: "")
+                    }
+                }
                 .map { account }
     }
 }

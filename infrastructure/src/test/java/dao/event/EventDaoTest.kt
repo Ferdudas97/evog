@@ -5,6 +5,7 @@ import domain.event.model.details.Category
 import kotlinx.coroutines.runBlocking
 import org.agh.eaiib.db.entity.event.DetailsEntity
 import org.agh.eaiib.db.entity.event.EventEntity
+import org.agh.eaiib.db.entity.event.ParticipiantEntity
 import org.litote.kmongo.coroutine.KMongoCoroutineBaseTest
 import org.litote.kmongo.coroutine.first
 import org.litote.kmongo.coroutine.insertOne
@@ -15,7 +16,7 @@ import kotlin.test.Test
 class EventDaoTest : KMongoCoroutineBaseTest<EventEntity>() {
 
 
-    private val event = EventEntity("123", "name", setOf(), setOf(), Status.CANCELED,
+    private val event = EventEntity("123", "name", setOf(), ParticipiantEntity("asd","asd","asd",23), Status.CANCELED,
             DetailsEntity(1, 5, 6, 7, ".",
                     LocalDateTime.now(),
                     LocalDateTime.now(),

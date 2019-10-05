@@ -9,7 +9,7 @@ import domain.event.model.EventName
 import domain.event.model.details.*
 import domain.event.model.participiant.Age
 import domain.event.model.participiant.Guest
-import domain.event.model.participiant.Organizator
+import domain.event.model.participiant.Participant
 import domain.event.model.participiant.ParticipantId
 import java.util.*
 
@@ -18,8 +18,8 @@ fun EventDto.toDomain() = Event(id = EventId(id ?: UUID.randomUUID().toString())
         name = EventName(name),
         details = details.toDomain(),
         status = status,
-        guests = guest.map { it.toGuest() }.toSet(),
-        organizers = organizers.map { it.toOrganizer() }.toSet()
+        guests = guest.map { it.toDomain() }.toSet(),
+        organizers =  organizers.toDomain()
 )
 
 
@@ -34,7 +34,7 @@ fun EventDetailsDto.toDomain() = EventDetails(
 fun Event.toDto() = EventDto(id = id.value,
         name = name.value,
         status = status,
-        organizers = organizers.map { it.toDto() }.toSet(),
+        organizers = organizers.toDto(),
         guest = guests.map { it.toDto() }.toSet(),
         details = details.toDto())
 
@@ -58,13 +58,12 @@ private fun Event.toSnapshotDto() = EventSnapshot(name = name.value,
         id = id.value,
         maxNumberOfPeople = details.peopleLimit.maxNumber,
         minNumberOfPeople = details.peopleLimit.minNumber,
-        numberOfGuests = guests.size + organizers.size,
+        numberOfGuests = guests.size + 1,
         category = details.category)
 
 
 private fun LocalizationDto.toDomain() = Localization(GeoPoint(Longitude(longitude), Latitude(latitude)))
 private fun Localization.toDto() = LocalizationDto(latitude = point.latitude.value, longitude = point.longitude.value)
-private fun Guest.toDto() = ParticipantDto(id = id.id, firstName = firstName.value, lastName = lastName.value, age = age.int)
-private fun Organizator.toDto() = ParticipantDto(id = id.id, firstName = firstName.value, lastName = lastName.value, age = age.int)
-private fun ParticipantDto.toGuest() = Guest(ParticipantId(id), FirstName(firstName), LastName(lastName), Age(age))
-private fun ParticipantDto.toOrganizer() = Organizator(ParticipantId(id), FirstName(firstName), LastName(lastName), Age(age))
+fun Guest.toDto() = ParticipantDto(id = id.id, firstName = firstName.value, lastName = lastName.value, age = age.int)
+fun Participant.toDto() = ParticipantDto(id = id.id, firstName = firstName.value, lastName = lastName.value, age = age.int)
+private fun ParticipantDto.toDomain() = Participant(ParticipantId(id), FirstName(firstName), LastName(lastName), Age(age))

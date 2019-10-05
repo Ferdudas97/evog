@@ -8,21 +8,31 @@ import api.query.event.EventQuery
 import application.command.event.handler.CancelEventHandler
 import application.command.event.handler.CreateEventHandler
 import application.command.event.handler.UpdateEventHandler
+import application.command.event.handler.notification.AcceptEventInvitationRequestHandler
+import application.command.event.handler.notification.AssignEventHandler
+import application.command.event.handler.notification.RejectEventInvitationRequestHandler
 import application.query.event.handler.FindEventByIdQueryHandler
 import application.query.event.handler.GetFilteredEventsQueryHandler
 import arrow.core.Either
+import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
+import io.ktor.sessions.get
+import io.ktor.sessions.sessions
+import io.ktor.sessions.set
+import io.ktor.util.pipeline.PipelineContext
+import org.agh.eaiib.integration.session.SessionData
 
 
 fun Route.eventRoute(cancelEventHandler: CancelEventHandler,
                      createEventHandler: CreateEventHandler,
                      updateEventHandler: UpdateEventHandler,
                      findEventByIdQueryHandler: FindEventByIdQueryHandler,
-                     getFilteredEventsQueryHandler: GetFilteredEventsQueryHandler) = route("/events") {
+                     getFilteredEventsQueryHandler: GetFilteredEventsQueryHandler,
+                     assignEventHandler: AssignEventHandler) = route("/events") {
 
     post("") {
         val dto = call.receive<EventDto>()
@@ -33,26 +43,41 @@ fun Route.eventRoute(cancelEventHandler: CancelEventHandler,
         }
     }
 
-    put("/{id}") {
-        val details = call.receive<EventDetailsDto>()
-        val id = call.parameters["id"]
-        id?.let { updateEventHandler.handle(EventCommand.Update(id, details)) }
-    }
-    delete("/{id}") {
-        val id = call.parameters["id"]
-        id?.let { cancelEventHandler.handle(EventCommand.Cancel(id)) }
-    }
+    route("/{id}") {
+        put {
+            val details = call.receive<EventDetailsDto>()
+            val id = call.parameters["id"]
+            id?.let { updateEventHandler.handle(EventCommand.Update(id, details)) }
+        }
+        delete {
+            val id = call.parameters["id"]
+            id?.let { cancelEventHandler.handle(EventCommand.Cancel(id)) }
+        }
 
-    get("/{id}") {
-        val id = call.parameters["id"]
-        id?.let {
-            val query = EventQuery.FindById(id)
-            val event = findEventByIdQueryHandler.exevute(query)
-            when (event) {
-                null -> call.respond(HttpStatusCode.NotFound, " Event with id $id not found")
-                else -> call.respond(event)
+        get {
+            val id = call.parameters["id"]
+            id?.let {
+                val query = EventQuery.FindById(id)
+                findEventByIdQueryHandler.exevute(query).apply {
+                    when (this) {
+                        null -> call.respond(HttpStatusCode.NotFound, " Event with id $id not found")
+                        else -> call.respond(this)
+                    }
+                }
+
             }
         }
+        post("/assign") {
+            val userId = call.getUserId()
+            val eventId = call.parameters["id"]!!
+            val command = EventCommand.Notification.Assign(eventId, userId)
+            val result = assignEventHandler.handle(command)
+            when (result) {
+                is Either.Left -> call.respond(HttpStatusCode.InternalServerError,result.a)
+                is Either.Right -> call.respond(HttpStatusCode.OK)
+            }
+        }
+
     }
 
     post("/filter") {

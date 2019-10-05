@@ -24,11 +24,18 @@ import io.ktor.routing.get
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import io.ktor.sessions.Sessions
+import io.ktor.sessions.cookie
+import io.ktor.sessions.directorySessionStorage
+import io.ktor.util.KtorExperimentalAPI
 import org.agh.eaiib.di.dep
 import org.agh.eaiib.endpoint.accountRoute
 import org.agh.eaiib.endpoint.eventRoute
+import org.agh.eaiib.endpoint.notificationRoute
 import org.agh.eaiib.endpoint.userRoute
+import org.agh.eaiib.integration.session.SessionData
 import org.slf4j.event.Level
+import java.io.File
 
 fun main(args: Array<String>): Unit {
     embeddedServer(Netty, port = 8080) {
@@ -42,6 +49,7 @@ fun Application.kodeinApp(testing: Boolean = false) {
 
 }
 
+@KtorExperimentalAPI
 fun Application.module(kodein: Kodein, testing: Boolean = false) {
     install(CallLogging) {
         level = Level.INFO
@@ -68,6 +76,13 @@ fun Application.module(kodein: Kodein, testing: Boolean = false) {
 
     }
 
+    install(Sessions) {
+        cookie<SessionData>("USER_ID", directorySessionStorage(File(".sessions"), cached = true)) {
+            cookie.path = "/"
+        }
+    }
+
+
     install(ContentNegotiation) {
         jackson {
             configure(SerializationFeature.INDENT_OUTPUT, true)
@@ -81,9 +96,12 @@ fun Application.module(kodein: Kodein, testing: Boolean = false) {
 
 
     routing {
-        userRoute(kodein.instance(), kodein.instance())
-        accountRoute(kodein.instance(), kodein.instance())
-        eventRoute(kodein.instance(), kodein.instance(), kodein.instance(), kodein.instance(), kodein.instance())
+        kodein.run {
+            userRoute(instance(), instance())
+            accountRoute(instance(), instance(), instance())
+            eventRoute(instance(), instance(), instance(), instance(), instance(), instance())
+            notificationRoute(instance(), instance(), instance(), instance())
+        }
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
         }

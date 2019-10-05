@@ -1,7 +1,7 @@
 package exceptions
 
 
-sealed class DomainError
+abstract class DomainError
 data class ValidationError(val msg: String) : DomainError()
 data class SavingError(val msg: String) : DomainError()
 data class UpdateError(val msg: String) : DomainError()

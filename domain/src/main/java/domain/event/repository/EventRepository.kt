@@ -11,7 +11,7 @@ import exceptions.DomainError
 
 interface EventRepository {
     suspend fun save(event: Event): Either<DomainError, Event>
-    suspend fun findById(id: EventId): Option<Event>
+    suspend fun findById(id: EventId): Event?
     suspend fun delete(id: EventId): Try<Unit>
     suspend fun update(event: Event): Either<DomainError, Event>
     suspend fun filtered(filter: EventFilter): List<Event>

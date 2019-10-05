@@ -4,7 +4,7 @@ import domain.account.model.user.info.FirstName
 import domain.account.model.user.info.LastName
 
 
-sealed class Participant(open val id: ParticipantId, open val firstName: FirstName, open val lastName: LastName, open val age: Age)
+open class Participant(open val id: ParticipantId, open val firstName: FirstName, open val lastName: LastName, open val age: Age)
 
 data class Age(val int: Int)
 

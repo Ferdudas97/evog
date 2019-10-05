@@ -9,6 +9,9 @@ import domain.account.model.Password
 import domain.account.model.user.User
 import domain.account.model.user.UserId
 import domain.account.model.user.info.*
+import domain.event.model.participiant.Age
+import domain.event.model.participiant.Guest
+import domain.event.model.participiant.ParticipantId
 import java.util.*
 
 
@@ -38,3 +41,5 @@ fun UserDto.toDomain(): User = User(id = UserId(id ?: UUID.randomUUID().toString
                 description?.let(::Description), sex),
         contactInfo = ContactInfo(phoneNumber = phoneNumber?.let { PhoneNumber(it) },
                 email = email?.let { Email(it) }))
+
+fun User.toGuest() = Guest(ParticipantId(id.id), firstName = this.personalInfo.firstName, lastName = this.personalInfo.lastName, age = Age(this.getAge()))

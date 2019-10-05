@@ -30,8 +30,8 @@ class EventRepositoryImpl(private val eventDao: EventDao) : EventRepository {
             }
             .map { event }
 
-    override suspend fun findById(id: EventId): Option<Event> {
-        return eventDao.findById(id.value)?.toDomain()?.toOption() ?: None
+    override suspend fun findById(id: EventId): Event? {
+        return eventDao.findById(id.value)?.toDomain()
     }
 
     override suspend fun delete(id: EventId): Try<Unit> {

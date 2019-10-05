@@ -3,6 +3,7 @@ package application.command.event.handler
 import api.command.event.EventCommand
 import api.command.event.EventCommandHandler
 import api.command.event.result.EventResult
+import api.toEither
 import arrow.core.Either
 import arrow.core.flatMap
 import domain.event.model.EventId

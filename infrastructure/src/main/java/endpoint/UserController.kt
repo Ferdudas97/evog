@@ -2,8 +2,10 @@ package org.agh.eaiib.endpoint
 
 import api.command.account.dto.UserDto
 import api.command.account.user.UserCommand
+import api.query.notification.NotificationQuery
 import api.query.user.UserQuery
 import application.command.account.user.handler.UpdateUserHandler
+import application.query.notification.handler.FindNotificationsByUserIdQueryHandler
 import application.query.user.handler.FindUserByIdQueryHandler
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode

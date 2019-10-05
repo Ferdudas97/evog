@@ -18,7 +18,7 @@ data class EventEntity(
         val id: String,
         val name: String,
         val guests: Set<ParticipiantEntity>,
-        val organizers: Set<ParticipiantEntity>,
+        val organizers: ParticipiantEntity,
         val status: Status,
         val details: DetailsEntity
 )

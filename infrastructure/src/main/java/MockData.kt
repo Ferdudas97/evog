@@ -47,17 +47,17 @@ object MockData {
             minNumberOfPeople = 1,
             startDate = LocalDateTime.now().plusYears(1),
             endTime = LocalDateTime.now().plusYears(1).plusDays(1),
-            localization = LocalizationDto(50.08, 19.901),
+            localization = LocalizationDto(50.06, 19.92),
             category = Category.PARTY)
 
     fun UserDto.toParticipiant() = ParticipantDto(id = id!!, firstName = firstName, lastName = lastName, age = 22)
     val event1 = EventDto(name = "urodziny radka",
             details = details,
-            organizers = setOf(user2.toParticipiant()),
+            organizers = user2.toParticipiant(),
             guest = setOf())
     val event2 = EventDto(name = "urodziny klaudia",
             details = details,
-            organizers = setOf(user1.toParticipiant()),
+            organizers = user1.toParticipiant(),
             guest = setOf(user2.toParticipiant()))
 
     val mockedEvents = listOf(event1, event2)

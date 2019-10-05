@@ -6,10 +6,7 @@ import domain.event.model.Event
 import domain.event.model.EventId
 import domain.event.model.EventName
 import domain.event.model.details.*
-import domain.event.model.participiant.Age
-import domain.event.model.participiant.Guest
-import domain.event.model.participiant.Organizator
-import domain.event.model.participiant.ParticipantId
+import domain.event.model.participiant.*
 import org.agh.eaiib.db.entity.event.DetailsEntity
 import org.agh.eaiib.db.entity.event.EventEntity
 import org.agh.eaiib.db.entity.event.ParticipiantEntity
@@ -17,10 +14,13 @@ import org.agh.eaiib.db.entity.event.ParticipiantEntity
 fun EventEntity.toDomain() = Event(id = EventId(id),
         name = EventName(name),
         details = details.toDomain(),
-        guests = guests.map { it.toGuest() }.toSet(), status = status, organizers = organizers.map { it.toOrganizer() }.toSet());
+        guests = guests.map { it.toGuest() }.toSet(),
+        status = status,
+        organizers = organizers.toOrganizer())
 
-private fun ParticipiantEntity.toGuest() = Guest(ParticipantId(id), FirstName(firstName), LastName(lastName), Age(age))
-private fun ParticipiantEntity.toOrganizer() = Organizator(ParticipantId(id), FirstName(firstName), LastName(lastName), Age(age))
+
+fun ParticipiantEntity.toGuest() = Guest(ParticipantId(id), FirstName(firstName), LastName(lastName), Age(age))
+fun ParticipiantEntity.toOrganizer() = Organizator(ParticipantId(id), FirstName(firstName), LastName(lastName), Age(age))
 
 private fun DetailsEntity.toDomain() = EventDetails(ageLimit = AgeLimit(minAllowedAge?.let { Age(it) }, maxAllowedAge?.let { Age(it) }),
         description = description?.let(::Description),
@@ -33,7 +33,7 @@ private fun DetailsEntity.toDomain() = EventDetails(ageLimit = AgeLimit(minAllow
 fun Event.toEntity() = EventEntity(id = id.value,
         name = name.value,
         guests = guests.map { it.toEntity() }.toSet(),
-        organizers = organizers.map { it.toEntity() }.toSet(),
+        organizers = organizers.toEntity(),
         status = status,
         details = details.toEntity())
 
@@ -47,5 +47,4 @@ private fun EventDetails.toEntity() = DetailsEntity(minAllowedAge = ageLimit.min
         category = category, longitude = localization.point.longitude.value,
         latitude = localization.point.latitude.value)
 
-private fun Guest.toEntity() = ParticipiantEntity(id.id, firstName.value, lastName.value, age.int)
-private fun Organizator.toEntity() = ParticipiantEntity(id.id, firstName.value, lastName.value, age.int)
+fun Participant.toEntity() = ParticipiantEntity(id.id, firstName.value, lastName.value, age.int)

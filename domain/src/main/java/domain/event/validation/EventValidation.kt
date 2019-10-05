@@ -10,17 +10,11 @@ import domain.event.model.participiant.Organizator
 import exceptions.ValidationError
 
 
-fun Event.validate(): Either<ValidationError, Event> = organizers.validete()
-        .flatMap { details.validate() }
+fun Event.validate(): Either<ValidationError, Event> = details.validate()
         .map { this }
 
 
 const val ORGANIZERS_VALIDATION_MSG = "event should have minimum 1 organizer"
-
-//Todo
-private fun Set<Organizator>.validete(): Either<ValidationError, Set<Organizator>> = if (this.isNotEmpty()) {
-    this.right()
-} else ValidationError(ORGANIZERS_VALIDATION_MSG).left()
 
 
 fun EventDetails.validate(): Either<ValidationError, EventDetails> = localization.validate()

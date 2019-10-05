@@ -26,8 +26,7 @@ class AccountDaoImpl(val db: CoroutineDatabase) : AccountDao {
     }
 
     override suspend fun save(entity: AccountEntity) {
-        db.getAccount()
-                .updateOneById(entity.login, entity)
+        db.getAccount().save(entity)
     }
 
     override suspend fun delete(id: String) {
@@ -44,7 +43,7 @@ class AccountDaoImpl(val db: CoroutineDatabase) : AccountDao {
         return db.getAccount().findOne(AccountEntity::user / UserEntity::id eq userId)?.user
     }
 
-    private fun CoroutineDatabase.getAccount() = getCollection<AccountEntity>()
+    private fun CoroutineDatabase.getAccount() = getCollection<AccountEntity>("accounts")
 
 
 }
