@@ -8,23 +8,15 @@ import api.query.event.EventQuery
 import application.command.event.handler.CancelEventHandler
 import application.command.event.handler.CreateEventHandler
 import application.command.event.handler.UpdateEventHandler
-import application.command.event.handler.notification.AcceptEventInvitationRequestHandler
 import application.command.event.handler.notification.AssignEventHandler
-import application.command.event.handler.notification.RejectEventInvitationRequestHandler
 import application.query.event.handler.FindEventByIdQueryHandler
 import application.query.event.handler.GetFilteredEventsQueryHandler
 import arrow.core.Either
-import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
-import io.ktor.sessions.get
-import io.ktor.sessions.sessions
-import io.ktor.sessions.set
-import io.ktor.util.pipeline.PipelineContext
-import org.agh.eaiib.integration.session.SessionData
 
 
 fun Route.eventRoute(cancelEventHandler: CancelEventHandler,
@@ -57,7 +49,8 @@ fun Route.eventRoute(cancelEventHandler: CancelEventHandler,
         get {
             val id = call.parameters["id"]
             id?.let {
-                val query = EventQuery.FindById(id)
+                val userId = call.getUserId()
+                val query = EventQuery.FindById(id,userId)
                 findEventByIdQueryHandler.exevute(query).apply {
                     when (this) {
                         null -> call.respond(HttpStatusCode.NotFound, " Event with id $id not found")

@@ -16,6 +16,7 @@ data class EventDto(val id: String? = null,
                     val status: Status = Status.BEFORE,
                     val details: EventDetailsDto,
                     val organizers: ParticipantDto,
+                    val isAssigned : Boolean = true,
                     val guest: Set<ParticipantDto>)
 
 const val pattern = "yyyy-MM-dd HH:mm:ss"
