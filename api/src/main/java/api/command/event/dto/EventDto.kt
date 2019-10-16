@@ -59,4 +59,5 @@ data class EventFilterDto(val name: String? = null,
                           val maxNumberOfPeople: Int? = null,
                           val minNumberOfPeople: Int? = null,
                           val category: Category? = null,
+                          val isAssigned: Boolean,
                           val localization: LocalizationDto)

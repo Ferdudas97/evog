@@ -4,6 +4,7 @@ import domain.event.filter.EventFilter
 import domain.event.filter.Range
 import org.agh.eaiib.db.dao.GenericDao
 import org.agh.eaiib.db.entity.event.EventEntity
+import org.agh.eaiib.db.entity.event.ParticipiantEntity
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.coroutine.updateOne
 
@@ -69,7 +70,11 @@ class EventDaoImpl(val db: CoroutineDatabase) : EventDao {
                 val isLatitude = this.latitudeRange.map { v -> v.value }.isBeetwen(it.latitude, it.latitude)
                 val isLongitude = this.longitudeRange.map { v -> v.value }.isBeetwen(it.longitude, it.longitude)
                 val isCategory = this.category?.equals(it.category) ?: true
-                return isContainsName and isPeople and isAge and isLatitude and isLongitude and isCategory
+                val isAssigned = if (shouldFilterById) {
+                    val participants = entity.guests + entity.organizers
+                    participants.map(ParticipiantEntity::id).contains(userId.id)
+                } else true
+                return isContainsName and isPeople and isAge and isLatitude and isLongitude and isCategory and isAssigned
             }
 
         }

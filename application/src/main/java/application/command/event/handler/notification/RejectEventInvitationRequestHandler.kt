@@ -24,7 +24,7 @@ class RejectEventInvitationRequestHandler(private val service: NotificationServi
                 receiver = notification.sender,
                 sender = notification.receiver,
                 eventId = notification.eventId,
-                content = Content("${notification.receiver.firstName}: Hej, niestety nie możesz dołączyc do wydarzenia"),
+                content = Content("Hej, niestety nie możesz dołączyc do wydarzenia"),
                 state = State.REJECTED,
                 creationTime = CreationTime(LocalDateTime.now())
         )

@@ -7,7 +7,7 @@ import query.QueryHandler
 
 sealed class EventQuery : Query {
     data class FindById(val eventId: String, val userId: String) : EventQuery()
-    data class FindBy(val filter: EventFilterDto) : EventQuery()
+    data class FindBy(val filter: EventFilterDto, val userId: String) : EventQuery()
 }
 
 interface EventQueryHandler<Q : EventQuery, R> : QueryHandler<Q, R>

@@ -1,5 +1,6 @@
 package domain.event.filter
 
+import domain.account.model.user.UserId
 import domain.event.model.details.Category
 import domain.event.model.details.Latitude
 import domain.event.model.details.Longitude
@@ -17,4 +18,6 @@ data class EventFilter(val name: String? = null,
                        val latitudeRange: Range<Latitude>,
                        val longitudeRange: Range<Longitude>,
                        val peopleRange: Range<Int>,
+                       val shouldFilterById: Boolean,
+                       val userId: UserId,
                        val category: Category? = null)

@@ -29,7 +29,7 @@ class AcceptEventInvitationRequestHandler(private val notificationService: Notif
                 receiver = notification.sender,
                 sender = notification.receiver,
                 eventId = notification.eventId,
-                content = Content("${notification.receiver.firstName}: Hej, dołączyłes do wydarzenia"),
+                content = Content("Hej, dołączyłes do wydarzenia"),
                 state = State.ACCEPTED,
                 creationTime = CreationTime(LocalDateTime.now())
         )
