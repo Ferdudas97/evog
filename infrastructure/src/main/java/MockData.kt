@@ -45,13 +45,14 @@ object MockData {
     val details = EventDetailsDto(minAllowedAge = 18,
             maxAllowedAge = 24,
             minNumberOfPeople = 1,
-            startDate = LocalDateTime.now().plusYears(1),
-            endTime = LocalDateTime.now().plusYears(1).plusDays(1),
+            startDate = LocalDateTime.now(),
+            endTime = LocalDateTime.now().plusDays(1),
             localization = LocalizationDto(50.06, 19.92),
             category = Category.PARTY)
 
     fun UserDto.toParticipiant() = ParticipantDto(id = id!!, firstName = firstName, lastName = lastName, age = 22)
     val event1 = EventDto(name = "urodziny radka",
+            imageName = "pool.png",
             details = details,
             organizers = user2.toParticipiant(),
             guest = setOf())

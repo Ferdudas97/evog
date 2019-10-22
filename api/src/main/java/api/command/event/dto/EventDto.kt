@@ -12,6 +12,7 @@ data class ParticipantDto(val id: String,
                           val age: Int)
 
 data class EventDto(val id: String? = null,
+                    val imageName: String = "top.png",
                     val name: String,
                     val status: Status = Status.BEFORE,
                     val details: EventDetailsDto,
@@ -19,7 +20,7 @@ data class EventDto(val id: String? = null,
                     val isAssigned : Boolean = true,
                     val guest: Set<ParticipantDto>)
 
-const val pattern = "yyyy-MM-dd HH:mm:ss"
+const val pattern = "yyyy-MM-dd'T'HH:mm"
 data class EventDetailsDto(val minAllowedAge: Int? = null,
                            val maxAllowedAge: Int? = null,
                            val minNumberOfPeople: Int? = null,
@@ -40,6 +41,7 @@ data class EventList(val events: List<EventSnapshot>)
 
 data class EventSnapshot(val id: String,
                          val name: String,
+                         val imageName: String = "top.png",
                          val localization: LocalizationDto,
                          val minNumberOfPeople: Int?,
                          val maxNumberOfPeople: Int?,

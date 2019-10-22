@@ -1,5 +1,6 @@
 package org.agh.eaiib
 
+import application.services.IntervalActionService
 import com.fasterxml.jackson.core.util.DefaultIndenter
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -29,10 +30,7 @@ import io.ktor.sessions.cookie
 import io.ktor.sessions.directorySessionStorage
 import io.ktor.util.KtorExperimentalAPI
 import org.agh.eaiib.di.dep
-import org.agh.eaiib.endpoint.accountRoute
-import org.agh.eaiib.endpoint.eventRoute
-import org.agh.eaiib.endpoint.notificationRoute
-import org.agh.eaiib.endpoint.userRoute
+import org.agh.eaiib.endpoint.*
 import org.agh.eaiib.integration.session.SessionData
 import org.slf4j.event.Level
 import java.io.File
@@ -51,6 +49,8 @@ fun Application.kodeinApp(testing: Boolean = false) {
 
 @KtorExperimentalAPI
 fun Application.module(kodein: Kodein, testing: Boolean = false) {
+    val intervalActionService = kodein.instance<IntervalActionService>()
+    intervalActionService.executeActions()
     install(CallLogging) {
         level = Level.INFO
         filter { call -> call.request.path().startsWith("/") }
@@ -101,6 +101,7 @@ fun Application.module(kodein: Kodein, testing: Boolean = false) {
             accountRoute(instance(), instance(), instance())
             eventRoute(instance(), instance(), instance(), instance(), instance(), instance())
             notificationRoute(instance(), instance(), instance(), instance())
+            staticFilesRoute()
         }
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)

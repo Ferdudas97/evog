@@ -5,6 +5,7 @@ import domain.account.model.user.info.LastName
 import domain.event.model.Event
 import domain.event.model.EventId
 import domain.event.model.EventName
+import domain.event.model.ImageName
 import domain.event.model.details.*
 import domain.event.model.participiant.*
 import org.agh.eaiib.db.entity.event.DetailsEntity
@@ -13,6 +14,7 @@ import org.agh.eaiib.db.entity.event.ParticipiantEntity
 
 fun EventEntity.toDomain() = Event(id = EventId(id),
         name = EventName(name),
+        imageName = ImageName(imageName),
         details = details.toDomain(),
         guests = guests.map { it.toGuest() }.toSet(),
         status = status,
@@ -32,6 +34,7 @@ private fun DetailsEntity.toDomain() = EventDetails(ageLimit = AgeLimit(minAllow
 
 fun Event.toEntity() = EventEntity(id = id.value,
         name = name.value,
+        imageName = imageName.value,
         guests = guests.map { it.toEntity() }.toSet(),
         organizers = organizers.toEntity(),
         status = status,

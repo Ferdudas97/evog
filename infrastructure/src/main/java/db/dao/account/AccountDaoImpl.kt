@@ -6,7 +6,7 @@ import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
 
-class AccountDaoImpl(val db: CoroutineDatabase) : AccountDao {
+class AccountDaoImpl(private val db: CoroutineDatabase) : AccountDao {
     override suspend fun updateUser(userEntity: UserEntity) {
         val account = db.getAccount().findOne(AccountEntity::user / UserEntity::id eq userEntity.id)
         account?.copy(user = userEntity)

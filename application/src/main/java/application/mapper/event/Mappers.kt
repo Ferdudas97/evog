@@ -6,6 +6,7 @@ import domain.account.model.user.info.LastName
 import domain.event.model.Event
 import domain.event.model.EventId
 import domain.event.model.EventName
+import domain.event.model.ImageName
 import domain.event.model.details.*
 import domain.event.model.participiant.Age
 import domain.event.model.participiant.Guest
@@ -16,6 +17,7 @@ import java.util.*
 
 fun EventDto.toDomain() = Event(id = EventId(id ?: UUID.randomUUID().toString()),
         name = EventName(name),
+        imageName = ImageName(imageName),
         details = details.toDomain(),
         status = status,
         guests = guest.map { it.toDomain() }.toSet(),
@@ -32,6 +34,7 @@ fun EventDetailsDto.toDomain() = EventDetails(
         category = category)
 
 fun Event.toDto() = EventDto(id = id.value,
+        imageName = imageName.value,
         name = name.value,
         status = status,
         organizers = organizers.toDto(),
@@ -52,6 +55,7 @@ private fun EventDetails.toDto() = EventDetailsDto(minAllowedAge = ageLimit.min?
 fun List<Event>.toSnapshotList() = this.map { it.toSnapshotDto() }
 
 private fun Event.toSnapshotDto() = EventSnapshot(name = name.value,
+        imageName = imageName.value,
         localization = details.localization.toDto(),
         startTime = details.period.startTime,
         endTime = details.period.endTime,

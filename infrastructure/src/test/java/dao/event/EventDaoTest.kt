@@ -16,7 +16,7 @@ import kotlin.test.Test
 class EventDaoTest : KMongoCoroutineBaseTest<EventEntity>() {
 
 
-    private val event = EventEntity("123", "name", setOf(), ParticipiantEntity("asd","asd","asd",23), Status.CANCELED,
+    private val event = EventEntity("123","top.png", "name", setOf(), ParticipiantEntity("asd","asd","asd",23), Status.CANCELED,
             DetailsEntity(1, 5, 6, 7, ".",
                     LocalDateTime.now(),
                     LocalDateTime.now(),

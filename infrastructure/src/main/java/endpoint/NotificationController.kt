@@ -19,6 +19,7 @@ fun Route.notificationRoute(rejectEventInvitationRequestHandler: RejectEventInvi
                             acceptEventInvitationRequestHandler: AcceptEventInvitationRequestHandler) = route("/notifications") {
     route("/{id}") {
         post("/accept") {
+
             val notificationId = call.parameters["id"]!!
             val command = EventCommand.Notification.Accept(notificationId)
             val result = acceptEventInvitationRequestHandler.handle(command)

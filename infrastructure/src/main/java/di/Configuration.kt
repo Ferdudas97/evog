@@ -18,8 +18,10 @@ import application.query.event.handler.FindEventByIdQueryHandler
 import application.query.event.handler.GetFilteredEventsQueryHandler
 import application.query.notification.handler.FindNotificationsByUserIdQueryHandler
 import application.query.user.handler.FindUserByIdQueryHandler
+import application.services.IntervalActionService
 import com.github.salomonbrys.kodein.*
 import com.github.salomonbrys.kodein.Kodein.Module
+import com.mongodb.reactivestreams.client.MongoDatabase
 import db.dao.account.AccountDao
 import db.dao.account.AccountDaoImpl
 import db.repository.UserRepositoryImpl
@@ -62,7 +64,7 @@ fun dep() = Kodein {
     bind<DeleteNotificationHandler>() with singleton { DeleteNotificationHandler(instance()) }
     bind<RejectEventInvitationRequestHandler>() with singleton { RejectEventInvitationRequestHandler(instance()) }
     bind<AcceptEventInvitationRequestHandler>() with singleton { AcceptEventInvitationRequestHandler(instance(), instance()) }
-    bind<FindNotificationsByUserIdQueryHandler>() with singleton { FindNotificationsByUserIdQueryHandler(instance(),instance()) }
+    bind<FindNotificationsByUserIdQueryHandler>() with singleton { FindNotificationsByUserIdQueryHandler(instance(), instance()) }
     bind<FindUserByIdQueryHandler>() with singleton { FindUserByIdQueryHandler(instance()) }
     bind<FindEventByIdQueryHandler>() with singleton { FindEventByIdQueryHandler(instance()) }
     bind<GetFilteredEventsQueryHandler>() with singleton { GetFilteredEventsQueryHandler(instance()) }
@@ -72,6 +74,7 @@ fun dep() = Kodein {
 
 
 private fun services() = Module {
+    bind<IntervalActionService>() with singleton { IntervalActionService(instance(), instance()) }
     bind<NotificationService>() with singleton { NotificationService(instance()) }
 }
 
@@ -103,10 +106,16 @@ private fun dao() = Module {
     bind<NotificationDao>() with singleton { NotificationDaoImpl(instance()) }
     bind<EventDao>() with singleton { EventDaoImpl(instance()) }
     bind<AccountDao>() with singleton { AccountDaoImpl(instance()) }
+//    bind<GridFSBucket>() with singleton {
+//        com.mongodb.MongoClient().getDatabase("evog")
+//                .let { GridFSBuckets.create(it) }
+//    }
+    bind<MongoDatabase>() with singleton { KMongo.createClient().getDatabase("evog") }
     bind<CoroutineDatabase>() with provider {
-        val db = KMongo.createClient().coroutine.getDatabase("evog")
+
+        val db = instance<MongoDatabase>().coroutine
         runBlocking {
-//            db.drop()
+            //            db.drop()
             return@runBlocking db
         }
     }

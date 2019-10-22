@@ -7,6 +7,7 @@ import org.agh.eaiib.db.entity.event.EventEntity
 import org.agh.eaiib.db.entity.event.ParticipiantEntity
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.coroutine.updateOne
+import java.time.LocalDateTime
 
 
 interface EventDao : GenericDao<EventEntity, String> {
@@ -65,16 +66,21 @@ class EventDaoImpl(val db: CoroutineDatabase) : EventDao {
         eventFilter.apply {
             val isContainsName = name?.let { entity.name.contains(it) or it.contains(entity.name) } ?: true
             entity.details.let {
-                val isPeople = this.peopleRange.isBeetwen(it.minNumberOfPeople.orMin(), it.maxNumberOfPeople.orMax())
-                val isAge = this.ageRange.map { v -> v.int }.isBeetwen(it.minAllowedAge.orMin(), it.maxAllowedAge.orMax())
-                val isLatitude = this.latitudeRange.map { v -> v.value }.isBeetwen(it.latitude, it.latitude)
-                val isLongitude = this.longitudeRange.map { v -> v.value }.isBeetwen(it.longitude, it.longitude)
+                val isPeople = this.peopleRange?.isBeetwen(it.minNumberOfPeople.orMin(), it.maxNumberOfPeople.orMax())
+                        ?: true
+                val isAge = this.ageRange?.map { v -> v.int }?.isBeetwen(it.minAllowedAge.orMin(), it.maxAllowedAge.orMax())
+                        ?: true
+                val isLatitude = this.latitudeRange?.map { v -> v.value }?.isBeetwen(it.latitude, it.latitude) ?: true
+                val isLongitude = this.longitudeRange?.map { v -> v.value }?.isBeetwen(it.longitude, it.longitude)
+                        ?: true
+                val isTime = this.timeRange?.isBeetwen(it.startDate) ?: true
                 val isCategory = this.category?.equals(it.category) ?: true
-                val isAssigned = if (shouldFilterById) {
+                val isStatus = status?.equals(entity.status) ?: true
+                val isAssigned = if (shouldFilterById ?: false) {
                     val participants = entity.guests + entity.organizers
-                    participants.map(ParticipiantEntity::id).contains(userId.id)
+                    participants.map(ParticipiantEntity::id).contains(userId!!.id)
                 } else true
-                return isContainsName and isPeople and isAge and isLatitude and isLongitude and isCategory and isAssigned
+                return isTime and isContainsName and isPeople and isAge and isLatitude and isLongitude and isCategory and isAssigned and isStatus
             }
 
         }
@@ -86,6 +92,11 @@ class EventDaoImpl(val db: CoroutineDatabase) : EventDao {
     private fun Range<Double>.isBeetwen(oMin: Double, oMax: Double): Boolean {
         return (max >= oMax) and (min <= oMin)
     }
+
+    private fun Range<LocalDateTime>.isBeetwen(time: LocalDateTime): Boolean {
+        return (max.isAfter(time)) and (min.isBefore(time))
+    }
+
 
     private fun Range<Int>.isBeetwen(oMin: Int, oMax: Int): Boolean {
         return (max >= oMax) and (min <= oMin)

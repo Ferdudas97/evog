@@ -166,17 +166,22 @@
             <artifactId>kmongo-coroutine</artifactId>
             <version>3.10.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.litote.kmongo/kmongo-async-core -->
-        <dependency>
-            <groupId>org.litote.kmongo</groupId>
-            <artifactId>kmongo-async-core</artifactId>
-            <version>3.10.2</version>
-        </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.litote.kmongo/kmongo-async-core &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.litote.kmongo</groupId>-->
+<!--            <artifactId>kmongo-async-core</artifactId>-->
+<!--            <version>3.10.2</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.litote.kmongo</groupId>
             <artifactId>kmongo-coroutine-core-tests</artifactId>
             <version>3.10.0</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.10.0</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
