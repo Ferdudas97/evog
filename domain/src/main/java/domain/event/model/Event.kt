@@ -1,5 +1,6 @@
 package domain.event.model
 
+import domain.account.model.user.UserId
 import domain.event.model.details.EventDetails
 import domain.event.model.participiant.Participant
 
@@ -17,6 +18,8 @@ data class Event(val id: EventId,
                  val details: EventDetails,
                  val guests: Set<Participant> = setOf(),
                  val status: Status,
-                 val organizers: Participant)
+                 val organizers: Participant) {
+    fun isAssigned(userId: UserId) = (guests + organizers).map { it.id.id }.contains(userId.id)
+}
 
 

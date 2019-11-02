@@ -45,9 +45,9 @@ object MockData {
     val details = EventDetailsDto(minAllowedAge = 18,
             maxAllowedAge = 24,
             minNumberOfPeople = 1,
-            startDate = LocalDateTime.now(),
-            endTime = LocalDateTime.now().plusDays(1),
-            localization = LocalizationDto(50.06, 19.92),
+            startDate = LocalDateTime.now().plusHours(5),
+            endTime = LocalDateTime.now().plusHours(10),
+            localization = LocalizationDto(50.06, 22.02),
             category = Category.PARTY)
 
     fun UserDto.toParticipiant() = ParticipantDto(id = id!!, firstName = firstName, lastName = lastName, age = 22)
@@ -61,5 +61,10 @@ object MockData {
             organizers = user1.toParticipiant(),
             guest = setOf(user2.toParticipiant()))
 
-    val mockedEvents = listOf(event1, event2)
+    val event3 = EventDto(name = "urodziny seny",
+            details = details.copy(startDate = LocalDateTime.now().minusDays(1)),
+            organizers = user3.toParticipiant(),
+            guest = setOf(user2.toParticipiant()))
+
+    val mockedEvents = listOf(event1, event2, event3)
 }

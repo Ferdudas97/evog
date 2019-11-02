@@ -7,6 +7,7 @@ import api.command.event.dto.EventFilterDto
 import api.query.event.EventQuery
 import application.command.event.handler.CancelEventHandler
 import application.command.event.handler.CreateEventHandler
+import application.command.event.handler.RemoveGuestEventHandler
 import application.command.event.handler.UpdateEventHandler
 import application.command.event.handler.notification.AssignEventHandler
 import application.query.event.handler.FindEventByIdQueryHandler
@@ -24,6 +25,7 @@ fun Route.eventRoute(cancelEventHandler: CancelEventHandler,
                      updateEventHandler: UpdateEventHandler,
                      findEventByIdQueryHandler: FindEventByIdQueryHandler,
                      getFilteredEventsQueryHandler: GetFilteredEventsQueryHandler,
+                     removeGuestEventHandler: RemoveGuestEventHandler,
                      assignEventHandler: AssignEventHandler) = route("/events") {
 
     post("") {
@@ -67,6 +69,18 @@ fun Route.eventRoute(cancelEventHandler: CancelEventHandler,
             val result = assignEventHandler.handle(command)
             when (result) {
                 is Either.Left -> call.respond(HttpStatusCode.InternalServerError,result.a)
+                is Either.Right -> call.respond(HttpStatusCode.OK)
+            }
+        }
+
+        delete("guests/{guestId}") {
+            val userId = call.getUserId()
+            val guestId = call.parameters["guestId"]!!
+            val eventId = call.parameters["id"]!!
+            val command = EventCommand.RemoveGuest(eventId,guestId,userId)
+            val  result = removeGuestEventHandler.handle(command)
+            when(result) {
+                is Either.Left -> call.respond(HttpStatusCode.InternalServerError, result.a)
                 is Either.Right -> call.respond(HttpStatusCode.OK)
             }
         }

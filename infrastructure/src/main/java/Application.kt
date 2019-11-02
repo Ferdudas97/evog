@@ -3,6 +3,7 @@ package org.agh.eaiib
 import application.services.IntervalActionService
 import com.fasterxml.jackson.core.util.DefaultIndenter
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.github.salomonbrys.kodein.Kodein
@@ -90,6 +91,9 @@ fun Application.module(kodein: Kodein, testing: Boolean = false) {
                 indentArraysWith(DefaultPrettyPrinter.FixedSpaceIndenter.instance)
                 indentObjectsWith(DefaultIndenter("  ", "\n"))
             })
+
+            disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             registerModule(JavaTimeModule())  // support java.time.* types
         }
     }
@@ -99,7 +103,7 @@ fun Application.module(kodein: Kodein, testing: Boolean = false) {
         kodein.run {
             userRoute(instance(), instance())
             accountRoute(instance(), instance(), instance())
-            eventRoute(instance(), instance(), instance(), instance(), instance(), instance())
+            eventRoute(instance(), instance(), instance(), instance(), instance(), instance(), instance())
             notificationRoute(instance(), instance(), instance(), instance())
             staticFilesRoute()
         }

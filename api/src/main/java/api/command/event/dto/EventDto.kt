@@ -55,7 +55,9 @@ data class EventSnapshot(val id: String,
 data class EventFilterDto(val name: String? = null,
                           val minAllowedAge: Int? = null,
                           val maxAllowedAge: Int? = null,
+                          @JsonFormat(pattern = pattern)
                           val startTime: LocalDateTime = LocalDateTime.MIN,
+                          @JsonFormat(pattern = pattern)
                           val endTime: LocalDateTime = LocalDateTime.MAX,
                           val localizationRadius: Double,
                           val maxNumberOfPeople: Int? = null,

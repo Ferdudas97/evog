@@ -7,6 +7,7 @@ import application.command.account.user.handler.UpdateUserHandler
 import application.command.event.NotificationService
 import application.command.event.handler.CancelEventHandler
 import application.command.event.handler.CreateEventHandler
+import application.command.event.handler.RemoveGuestEventHandler
 import application.command.event.handler.UpdateEventHandler
 import application.command.event.handler.notification.AcceptEventInvitationRequestHandler
 import application.command.event.handler.notification.AssignEventHandler
@@ -60,6 +61,7 @@ fun dep() = Kodein {
     bind<CancelEventHandler>() with singleton { CancelEventHandler(instance(), instance()) }
     bind<UpdateEventHandler>() with singleton { UpdateEventHandler(instance(), instance()) }
 
+    bind<RemoveGuestEventHandler>() with singleton { RemoveGuestEventHandler(instance(), instance(), instance()) }
     bind<AssignEventHandler>() with singleton { AssignEventHandler(instance(), instance(), instance()) }
     bind<DeleteNotificationHandler>() with singleton { DeleteNotificationHandler(instance()) }
     bind<RejectEventInvitationRequestHandler>() with singleton { RejectEventInvitationRequestHandler(instance()) }

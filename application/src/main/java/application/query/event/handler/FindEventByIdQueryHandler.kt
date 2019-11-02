@@ -16,5 +16,5 @@ class FindEventByIdQueryHandler(private val eventRepository: EventRepository) : 
 
     }
 
-    private fun EventDto.setIsAssigned(userId: String) = this.copy(isAssigned = guest.map { it.id }.contains(userId))
+    private fun EventDto.setIsAssigned(userId: String) = this.copy(isAssigned =(guest+ organizers).map{ it.id }.contains(userId))
 }

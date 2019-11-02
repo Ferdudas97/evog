@@ -11,5 +11,6 @@ sealed class EventResult : CommandResult() {
     data class Accepted(val notificationId: String) : EventResult()
     data class Rejected(val notificationId: String) : EventResult()
     data class Delete(val notificationId: String) : EventResult()
+    class GuestRemoved() : EventResult()
 
 }
