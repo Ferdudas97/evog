@@ -1,31 +1,30 @@
-//package org.agh.eaiib.db.dao.images
-//
-//import com.mongodb.client.gridfs.GridFSBucket
-//import org.agh.eaiib.db.dao.GenericDao
-//import java.io.File
-//import java.nio.ByteBuffer
-//import java.util.*
-//
-//
-//interface ImageDao : GenericDao<File, String> {
-//}
-//
-//
-//class ImageDaoImpl(private val gridFSBucket: GridFSBucket) : ImageDao {
-//
-//    override suspend fun findById(id: String): File? {
-//    gridFSBucket.openDownloadStream(id).gridFSFile.
-//    }
-//
-//    override suspend fun save(entity: File) {
-//        gridFSBucket.uploadFromStream(entity.name, entity.inputStream())
-//    }
-//
-//    override suspend fun delete(id: String) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//    }
-//
-//    override suspend fun update(entity: File) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//    }
-//}
+package org.agh.eaiib.db.dao.images
+
+import com.mongodb.client.gridfs.GridFSBucket
+import org.bson.types.ObjectId
+import java.util.*
+
+
+interface ImageDao {
+    suspend fun findById(id: String): ByteArray
+    suspend fun save(file: ByteArray): String
+    suspend fun delete(id: String)
+}
+
+
+class ImageDaoImpl(private val gridFSBucket: GridFSBucket) : ImageDao {
+
+    override suspend fun findById(id: String): ByteArray {
+        return gridFSBucket.openDownloadStream(id).readBytes()
+    }
+
+    override suspend fun save(file: ByteArray) : String {
+        val filename = UUID.randomUUID().toString()
+        gridFSBucket.uploadFromStream(filename, file.inputStream())
+        return filename
+    }
+
+    override suspend fun delete(id: String) {
+        gridFSBucket.delete(ObjectId(id))
+    }
+}

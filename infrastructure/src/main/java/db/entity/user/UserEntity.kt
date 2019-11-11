@@ -9,6 +9,7 @@ data class UserEntity(
         @BsonId
         val id: String,
         val firstName: String,
+        val filesId : List<String>,
         val lastName: String,
         val birthDate: LocalDate,
         val description: String? = null,

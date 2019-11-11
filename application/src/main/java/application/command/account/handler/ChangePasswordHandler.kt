@@ -1,13 +1,10 @@
 package application.command.account.handler
 
 import api.command.account.AccountCommand
-import api.command.account.event.AccountEvent
 import api.command.account.handler.AccountCommandHandler
 import api.command.account.result.AccountCommandResult
-import application.mapper.user.toDto
 import arrow.core.Either
 import arrow.core.Left
-import arrow.peek
 import domain.account.model.Login
 import domain.account.model.Password
 import domain.account.repository.AccountRepository
@@ -28,9 +25,7 @@ class ChangePasswordHandler(private val accountRepository: AccountRepository,
             null -> Left(SavingError(""))
             else -> account.copy(password = password)
                     .let { accountRepository.update(it) }
-                    .map { it.toDto() }
-                    .peek { eventSender.apply { AccountEvent.PasswordUpdated(command.login, command.password) } }
-                    .map { AccountCommandResult.UpdatePassword(it) }
+                    .map { AccountCommandResult.UpdatePassword() }
 
         }
     }

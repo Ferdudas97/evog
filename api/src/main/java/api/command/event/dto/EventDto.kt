@@ -9,6 +9,7 @@ import java.time.LocalDateTime
 data class ParticipantDto(val id: String,
                           val firstName: String,
                           val lastName: String,
+                          val fileId: String,
                           val age: Int)
 
 data class EventDto(val id: String? = null,

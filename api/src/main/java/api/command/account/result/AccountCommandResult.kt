@@ -5,7 +5,7 @@ import command.CommandResult
 
 
 sealed class AccountCommandResult : CommandResult() {
-    data class Create(val accountDto: AccountDto) : AccountCommandResult()
-    data class UpdatePassword(val accountDto: AccountDto) : AccountCommandResult()
-    data class Login(val accountDto: AccountDto) : AccountCommandResult()
+    class Create : AccountCommandResult()
+    class UpdatePassword : AccountCommandResult()
+    class Login(val accountDto: AccountDto) : AccountCommandResult()
 }

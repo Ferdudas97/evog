@@ -1,5 +1,6 @@
 package org.agh.eaiib.db.mapper.event
 
+import domain.account.model.user.FileId
 import domain.account.model.user.info.FirstName
 import domain.account.model.user.info.LastName
 import domain.event.model.Event
@@ -21,8 +22,8 @@ fun EventEntity.toDomain() = Event(id = EventId(id),
         organizers = organizers.toOrganizer())
 
 
-fun ParticipiantEntity.toGuest() = Guest(ParticipantId(id), FirstName(firstName), LastName(lastName), Age(age))
-fun ParticipiantEntity.toOrganizer() = Organizator(ParticipantId(id), FirstName(firstName), LastName(lastName), Age(age))
+fun ParticipiantEntity.toGuest() = Guest(ParticipantId(id), FirstName(firstName), LastName(lastName), FileId(fileId), Age(age))
+fun ParticipiantEntity.toOrganizer() = Organizator(ParticipantId(id), FirstName(firstName), LastName(lastName), FileId(fileId), Age(age))
 
 private fun DetailsEntity.toDomain() = EventDetails(ageLimit = AgeLimit(minAllowedAge?.let { Age(it) }, maxAllowedAge?.let { Age(it) }),
         description = description?.let(::Description),
@@ -50,4 +51,4 @@ private fun EventDetails.toEntity() = DetailsEntity(minAllowedAge = ageLimit.min
         category = category, longitude = localization.point.longitude.value,
         latitude = localization.point.latitude.value)
 
-fun Participant.toEntity() = ParticipiantEntity(id.id, firstName.value, lastName.value, age.int)
+fun Participant.toEntity() = ParticipiantEntity(id.id, firstName.value, lastName.value, fileId.id, age.int)

@@ -30,7 +30,7 @@ class UserRepositoryTest : StringSpec() {
                     null,
                     Sex.MALE),
             contactInfo = ContactInfo(PhoneNumber("576956962"),
-                    Email("ads@pdasd.pl")))
+                    Email("ads@pdasd.pl")), files = emptyList())
     private val account = Account(Login("lol"), Password("lol123"), user)
 
     init {

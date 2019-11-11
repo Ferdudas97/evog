@@ -1,15 +1,9 @@
 package org.agh.eaiib
 
 import application.services.IntervalActionService
-import com.fasterxml.jackson.core.util.DefaultIndenter
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.github.salomonbrys.kodein.Kodein
 import com.github.salomonbrys.kodein.instance
 import io.ktor.application.Application
-import io.ktor.application.ApplicationCallPipeline
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.CORS
@@ -18,7 +12,7 @@ import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
-import io.ktor.jackson.jackson
+import io.ktor.jackson.JacksonConverter
 import io.ktor.request.path
 import io.ktor.response.respond
 import io.ktor.response.respondText
@@ -57,9 +51,6 @@ fun Application.module(kodein: Kodein, testing: Boolean = false) {
         filter { call -> call.request.path().startsWith("/") }
 
     }
-    intercept(ApplicationCallPipeline.Features) {
-    }
-
 
     install(CORS) {
         method(HttpMethod.Options)
@@ -85,27 +76,17 @@ fun Application.module(kodein: Kodein, testing: Boolean = false) {
 
 
     install(ContentNegotiation) {
-        jackson {
-            configure(SerializationFeature.INDENT_OUTPUT, true)
-            setDefaultPrettyPrinter(DefaultPrettyPrinter().apply {
-                indentArraysWith(DefaultPrettyPrinter.FixedSpaceIndenter.instance)
-                indentObjectsWith(DefaultIndenter("  ", "\n"))
-            })
-
-            disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            registerModule(JavaTimeModule())  // support java.time.* types
-        }
+        register(ContentType.Application.Json, JacksonConverter(kodein.instance()))
     }
 
 
     routing {
         kodein.run {
             userRoute(instance(), instance())
-            accountRoute(instance(), instance(), instance())
+            accountRoute(instance(), instance(), instance(), instance())
             eventRoute(instance(), instance(), instance(), instance(), instance(), instance(), instance())
             notificationRoute(instance(), instance(), instance(), instance())
-            staticFilesRoute()
+            staticFilesRoute(instance())
         }
         get("/") {
             call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)

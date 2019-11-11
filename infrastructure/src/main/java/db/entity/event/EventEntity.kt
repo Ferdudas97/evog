@@ -11,6 +11,7 @@ data class ParticipiantEntity(
         val id: String,
         val firstName: String,
         val lastName: String,
+        val fileId: String,
         val age: Int)
 
 data class EventEntity(

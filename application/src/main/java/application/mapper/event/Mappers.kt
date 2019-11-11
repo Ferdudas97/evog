@@ -1,6 +1,7 @@
 package application.mapper.event
 
 import api.command.event.dto.*
+import domain.account.model.user.FileId
 import domain.account.model.user.info.FirstName
 import domain.account.model.user.info.LastName
 import domain.event.model.Event
@@ -68,6 +69,7 @@ private fun Event.toSnapshotDto() = EventSnapshot(name = name.value,
 
 private fun LocalizationDto.toDomain() = Localization(GeoPoint(Longitude(longitude), Latitude(latitude)))
 private fun Localization.toDto() = LocalizationDto(latitude = point.latitude.value, longitude = point.longitude.value)
-fun Guest.toDto() = ParticipantDto(id = id.id, firstName = firstName.value, lastName = lastName.value, age = age.int)
-fun Participant.toDto() = ParticipantDto(id = id.id, firstName = firstName.value, lastName = lastName.value, age = age.int)
-private fun ParticipantDto.toDomain() = Participant(ParticipantId(id), FirstName(firstName), LastName(lastName), Age(age))
+fun Guest.toDto() = ParticipantDto(id = id.id, firstName = firstName.value, lastName = lastName.value, age = age.int, fileId = fileId.id)
+fun Participant.toDto() = ParticipantDto(id = id.id, firstName = firstName.value, lastName = lastName.value, age = age.int, fileId = fileId.id)
+private fun ParticipantDto.toDomain() = Participant(ParticipantId(id), FileId(fileId), FirstName(firstName), LastName(lastName), Age(age))
+

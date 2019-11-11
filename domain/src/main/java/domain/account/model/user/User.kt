@@ -5,8 +5,10 @@ import domain.account.model.user.info.PersonalInfo
 import java.time.LocalDateTime
 
 data class UserId(val id: String)
+data class FileId(val id: String)
 data class User(
         val id: UserId,
+        val files: List<FileId>,
         val personalInfo: PersonalInfo,
         val contactInfo: ContactInfo) {
 

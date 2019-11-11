@@ -21,6 +21,7 @@ class AccountDaoTest : StringSpec() {
             id = id,
             birthDate = LocalDate.now(), firstName = "Radek",
             lastName = "chrzanowski",
+            filesId = emptyList(),
             sex = Sex.MALE)
     private val accountEntity = AccountEntity("lol", "lol123", userEntity)
 

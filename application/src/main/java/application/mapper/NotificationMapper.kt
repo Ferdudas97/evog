@@ -15,4 +15,4 @@ fun Notification.toDto() = NotificationDto(
         creationTime = creationTime.localDateTime
 )
 
-private fun Participant.toDto() = ParticipantDto(id.id, firstName.value, lastName.value, age.int)
+private fun Participant.toDto() = ParticipantDto(id.id, firstName.value, lastName.value, fileId.id, age.int)
