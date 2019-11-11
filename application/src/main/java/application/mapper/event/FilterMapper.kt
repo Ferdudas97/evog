@@ -5,6 +5,7 @@ import api.command.event.dto.LocalizationDto
 import domain.account.model.user.UserId
 import domain.event.filter.EventFilter
 import domain.event.filter.Range
+import domain.event.model.details.GeoPoint
 import domain.event.model.details.Latitude
 import domain.event.model.details.Longitude
 import domain.event.model.participiant.Age
@@ -18,19 +19,9 @@ fun EventFilterDto.toDomain(userId: UserId) = EventFilter(name = name,
         shouldFilterById = isAssigned,
         userId = userId,
         peopleRange = Range(min = minNumberOfPeople ?: Int.MIN_VALUE, max = maxNumberOfPeople ?: Int.MAX_VALUE),
-        latitudeRange = localization.computeLatitudeRange(radius = localizationRadius),
-        longitudeRange = localization.computeLongitudeRange(radius = localizationRadius))
+        geoPoint = localization.toGeoPoint() ,
+        radius = this.localizationRadius.toInt()
+)
 
 
-private fun geographicDelta(km: Double) = km / 111
-// todo: zrobić to zgodnie z
-private fun LocalizationDto.computeLongitudeRange(radius: Double): Range<Longitude> {
-    return Range(min = Longitude(this.longitude - geographicDelta(radius))
-            , max = Longitude(this.longitude + geographicDelta(radius)))
-}
-
-private fun LocalizationDto.computeLatitudeRange(radius: Double): Range<Latitude> {
-    return Range(min = Latitude(this.latitude - geographicDelta(radius))
-            , max = Latitude(this.latitude + geographicDelta(radius)))
-
-}
+private fun LocalizationDto.toGeoPoint() = GeoPoint(Longitude(longitude),Latitude(latitude))

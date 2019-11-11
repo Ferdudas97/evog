@@ -70,9 +70,7 @@ class EventDaoImpl(val db: CoroutineDatabase) : EventDao {
                         ?: true
                 val isAge = this.ageRange?.map { v -> v.int }?.isBeetwen(it.minAllowedAge.orMin(), it.maxAllowedAge.orMax())
                         ?: true
-                val isLatitude = this.latitudeRange?.map { v -> v.value }?.isBeetwen(it.latitude, it.latitude) ?: true
-                val isLongitude = this.longitudeRange?.map { v -> v.value }?.isBeetwen(it.longitude, it.longitude)
-                        ?: true
+                val isInRadius = this.isInRadius(it.longitude,it.latitude)
                 val isTime = this.timeRange?.isBeetwen(it.startDate) ?: true
                 val isCategory = this.category?.equals(it.category) ?: true
                 val isStatus = status?.equals(entity.status) ?: true
@@ -80,11 +78,12 @@ class EventDaoImpl(val db: CoroutineDatabase) : EventDao {
                     val participants = entity.guests + entity.organizers
                     participants.map(ParticipiantEntity::id).contains(userId!!.id)
                 } else true
-                return isTime and isContainsName and isPeople and isAge and isLatitude and isLongitude and isCategory and isAssigned and isStatus
+                return isTime and isContainsName and isPeople and isAge and isInRadius and isCategory and isAssigned and isStatus
             }
 
         }
     }
+
 
     private fun Int?.orMax() = this ?: Int.MAX_VALUE
 
