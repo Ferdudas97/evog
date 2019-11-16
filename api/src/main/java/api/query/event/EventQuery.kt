@@ -1,8 +1,8 @@
 package api.query.event
 
 import api.command.event.dto.EventFilterDto
-import query.Query
-import query.QueryHandler
+import api.query.Query
+import api.query.QueryHandler
 
 
 sealed class EventQuery : Query {

@@ -1,7 +1,7 @@
 package api.command.account
 
+import api.command.Command
 import api.command.account.dto.AccountDto
-import command.Command
 
 
 sealed class AccountCommand : Command() {

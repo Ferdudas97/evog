@@ -42,7 +42,6 @@ import domain.account.repository.AccountRepository
 import domain.account.repository.UserRepository
 import domain.event.repository.EventRepository
 import domain.notification.repository.NotificationRepository
-import integration.DomainEvent
 import kotlinx.coroutines.runBlocking
 import org.agh.eaiib.MockData
 import org.agh.eaiib.db.dao.event.EventDao
@@ -54,8 +53,6 @@ import org.agh.eaiib.db.dao.notification.NotificationDaoImpl
 import org.agh.eaiib.db.repository.ImageRepositoryImpl
 import org.agh.eaiib.db.repository.event.EventRepositoryImpl
 import org.agh.eaiib.db.repository.notification.NotificationRepositoryImpl
-import org.agh.eaiib.integration.events.send
-import org.apache.kafka.clients.producer.Producer
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
@@ -65,8 +62,7 @@ import java.io.File
 fun dep() = Kodein {
     import(repositories())
     import(services())
-    bind<(DomainEvent) -> Unit>() with singleton { { e: DomainEvent -> } }
-    bind<ChangePasswordHandler>() with singleton { ChangePasswordHandler(instance(), instance()) }
+    bind<ChangePasswordHandler>() with singleton { ChangePasswordHandler(instance()) }
     bind<CreateUserCommandHandler>() with singleton {
         CreateUserCommandHandler(instance(), instance()).apply {
             runBlocking {
@@ -90,11 +86,11 @@ fun dep() = Kodein {
     }
     bind<LoginCommandHandler>() with singleton { LoginCommandHandler(instance()) }
 
-    bind<UpdateUserHandler>() with singleton { UpdateUserHandler(instance(), instance()) }
+    bind<UpdateUserHandler>() with singleton { UpdateUserHandler(instance()) }
 
-    bind<CreateEventHandler>() with singleton { CreateEventHandler(instance(), instance()) }
-    bind<CancelEventHandler>() with singleton { CancelEventHandler(instance(), instance()) }
-    bind<UpdateEventHandler>() with singleton { UpdateEventHandler(instance(), instance()) }
+    bind<CreateEventHandler>() with singleton { CreateEventHandler(instance()) }
+    bind<CancelEventHandler>() with singleton { CancelEventHandler(instance()) }
+    bind<UpdateEventHandler>() with singleton { UpdateEventHandler(instance()) }
 
     bind<RemoveGuestEventHandler>() with singleton { RemoveGuestEventHandler(instance(), instance(), instance()) }
     bind<AssignEventHandler>() with singleton { AssignEventHandler(instance(), instance(), instance()) }
@@ -172,5 +168,4 @@ private fun dao() = Module {
 
 }
 
-private fun sender(producer: Producer<String, String>): (DomainEvent) -> Unit = { domainEvent -> producer.send(domainEvent) }
 

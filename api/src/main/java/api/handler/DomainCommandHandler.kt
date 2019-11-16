@@ -1,8 +1,8 @@
 package api.handler
 
-import command.Command
-import command.CommandHandler
-import command.CommandResult
+import api.command.Command
+import api.command.CommandHandler
+import api.command.CommandResult
 import exceptions.DomainError
 
 

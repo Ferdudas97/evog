@@ -1,6 +1,6 @@
 package api.query.user
 
-import query.Query
+import api.query.Query
 
 
 sealed class UserQuery : Query {

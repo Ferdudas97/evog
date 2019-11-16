@@ -1,7 +1,7 @@
 package api.query.notification
 
-import query.Query
-import query.QueryHandler
+import api.query.Query
+import api.query.QueryHandler
 
 
 sealed class NotificationQuery : Query {

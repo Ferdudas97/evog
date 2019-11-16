@@ -17,7 +17,7 @@ import java.time.LocalDate
 class UpdateCommandHandlerTest : StringSpec() {
 
     private val repositoryMock = UserRepositoryMock()
-    private val handler = UpdateUserHandler(repositoryMock, {})
+    private val handler = UpdateUserHandler(repositoryMock)
 
     init {
 

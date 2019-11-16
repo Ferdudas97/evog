@@ -10,11 +10,9 @@ import domain.account.model.Password
 import domain.account.repository.AccountRepository
 import exceptions.DomainError
 import exceptions.SavingError
-import integration.DomainEvent
 
 
-class ChangePasswordHandler(private val accountRepository: AccountRepository,
-                            private val eventSender: (DomainEvent) -> Unit) : AccountCommandHandler<AccountCommand.ChangePassword, AccountCommandResult.UpdatePassword>() {
+class ChangePasswordHandler(private val accountRepository: AccountRepository) : AccountCommandHandler<AccountCommand.ChangePassword, AccountCommandResult.UpdatePassword>() {
 
 
     override suspend fun handle(command: AccountCommand.ChangePassword): Either<DomainError, AccountCommandResult.UpdatePassword> {

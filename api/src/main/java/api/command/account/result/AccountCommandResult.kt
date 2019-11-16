@@ -1,7 +1,7 @@
 package api.command.account.result
 
+import api.command.CommandResult
 import api.command.account.dto.AccountDto
-import command.CommandResult
 
 
 sealed class AccountCommandResult : CommandResult() {

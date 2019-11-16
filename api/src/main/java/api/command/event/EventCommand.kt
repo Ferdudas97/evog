@@ -1,8 +1,8 @@
 package api.command.event
 
+import api.command.Command
 import api.command.event.dto.EventDetailsDto
 import api.command.event.dto.EventDto
-import command.Command
 
 
 sealed class EventCommand : Command() {

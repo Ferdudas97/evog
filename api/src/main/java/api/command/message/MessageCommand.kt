@@ -1,7 +1,7 @@
 package api.command.message
 
+import api.command.Command
 import api.command.message.dto.MessageDto
-import command.Command
 
 
 sealed class MessageCommand : Command()

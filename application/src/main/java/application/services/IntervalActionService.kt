@@ -9,7 +9,6 @@ import domain.event.repository.EventRepository
 import domain.notification.*
 import domain.notification.repository.NotificationRepository
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newFixedThreadPoolContext
 import java.time.LocalDateTime
@@ -25,11 +24,11 @@ class IntervalActionService(private val eventRepository: EventRepository, privat
 
     fun executeActions() {
         GlobalScope.launch {
-            while (true) {
-                markAsPast()
-                sendReminderNotification()
-                delay(checkTime)
-            }
+//            while (true) {
+//                markAsPast()
+//                sendReminderNotification()
+//                delay(checkTime)
+//            }
         }
     }
 

@@ -1,7 +1,7 @@
 package api.command.event.result
 
+import api.command.CommandResult
 import api.command.event.dto.EventDto
-import command.CommandResult
 
 sealed class EventResult : CommandResult() {
     data class Created(val event: EventDto) : EventResult()
