@@ -44,7 +44,7 @@ class EventRepositoryImpl(private val eventDao: EventDao) : EventRepository {
         return event.validate()
                 .map { it.toEntity() }
                 .flatMap { eventEntity ->
-                    Try { eventDao.save(eventEntity) }.toEither {
+                    Try { eventDao.update(eventEntity) }.toEither {
                         UpdateError(it.message ?: "Cannot update event")
                     }
                 }

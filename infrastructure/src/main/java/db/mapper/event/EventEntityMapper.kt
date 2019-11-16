@@ -1,5 +1,6 @@
 package org.agh.eaiib.db.mapper.event
 
+import api.generateId
 import domain.account.model.user.FileId
 import domain.account.model.user.info.FirstName
 import domain.account.model.user.info.LastName
@@ -8,22 +9,34 @@ import domain.event.model.EventId
 import domain.event.model.EventName
 import domain.event.model.ImageName
 import domain.event.model.details.*
-import domain.event.model.participiant.*
-import org.agh.eaiib.db.entity.event.DetailsEntity
-import org.agh.eaiib.db.entity.event.EventEntity
-import org.agh.eaiib.db.entity.event.ParticipiantEntity
+import domain.event.model.discussion.Discussion
+import domain.event.model.discussion.Message
+import domain.event.model.participiant.Age
+import domain.event.model.participiant.Participant
+import domain.event.model.participiant.ParticipantId
+import domain.notification.Content
+import domain.notification.CreationTime
+import org.agh.eaiib.db.entity.event.*
 
 fun EventEntity.toDomain() = Event(id = EventId(id),
         name = EventName(name),
         imageName = ImageName(imageName),
         details = details.toDomain(),
-        guests = guests.map { it.toGuest() }.toSet(),
+        guests = guests.map { it.toDomain() }.toSet(),
         status = status,
-        organizers = organizers.toOrganizer())
+        organizers = organizers.toDomain(),
+        discussion = discussionEntity.toDomain())
+
+private fun DiscussionEntity.toDomain() = Discussion(messages = messages.map { it.toDomain() })
+
+private fun MessageEntity.toDomain() = Message(createdAt = CreationTime(createdAt),
+        content = Content(text), creator = participant.toDomain())
 
 
-fun ParticipiantEntity.toGuest() = Guest(ParticipantId(id), FirstName(firstName), LastName(lastName), FileId(fileId), Age(age))
-fun ParticipiantEntity.toOrganizer() = Organizator(ParticipantId(id), FirstName(firstName), LastName(lastName), FileId(fileId), Age(age))
+fun ParticipiantEntity.toDomain() = Participant(ParticipantId(id),
+        firstName = FirstName(firstName),
+        lastName = LastName(lastName), fileId = FileId(fileId), age = Age(age))
+
 
 private fun DetailsEntity.toDomain() = EventDetails(ageLimit = AgeLimit(minAllowedAge?.let { Age(it) }, maxAllowedAge?.let { Age(it) }),
         description = description?.let(::Description),
@@ -39,7 +52,15 @@ fun Event.toEntity() = EventEntity(id = id.value,
         guests = guests.map { it.toEntity() }.toSet(),
         organizers = organizers.toEntity(),
         status = status,
-        details = details.toEntity())
+        details = details.toEntity(),
+        discussionEntity = discussion.toEntity())
+
+private fun Discussion.toEntity() = DiscussionEntity(messages = messages.map { it.toEntity() },
+        id = generateId())
+private fun Message.toEntity() = MessageEntity(text = content.value,
+        participant = creator.toEntity(),
+        createdAt = createdAt.localDateTime,
+        id = generateId())
 
 private fun EventDetails.toEntity() = DetailsEntity(minAllowedAge = ageLimit.min?.int,
         maxAllowedAge = ageLimit.max?.int,

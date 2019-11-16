@@ -9,10 +9,14 @@ import domain.event.model.EventId
 import domain.event.model.EventName
 import domain.event.model.ImageName
 import domain.event.model.details.*
+import domain.event.model.discussion.Discussion
+import domain.event.model.discussion.Message
 import domain.event.model.participiant.Age
 import domain.event.model.participiant.Guest
 import domain.event.model.participiant.Participant
 import domain.event.model.participiant.ParticipantId
+import domain.notification.Content
+import domain.notification.CreationTime
 import java.util.*
 
 
@@ -22,10 +26,14 @@ fun EventDto.toDomain() = Event(id = EventId(id ?: UUID.randomUUID().toString())
         details = details.toDomain(),
         status = status,
         guests = guest.map { it.toDomain() }.toSet(),
-        organizers =  organizers.toDomain()
+        organizers =  organizers.toDomain(),
+        discussion = discussion.toDomain()
 )
 
-
+fun DiscussionDto.toDomain() = Discussion(messages = messages.map { it.toDomain() })
+fun MessageDto.toDomain() = Message(creator = creator.toDomain(),
+        createdAt = CreationTime(createdAt),
+        content = Content(text))
 fun EventDetailsDto.toDomain() = EventDetails(
         ageLimit = AgeLimit(minAllowedAge?.let { Age(it) }, maxAllowedAge?.let { Age(it) }),
         description = description?.let { Description(it) },
@@ -40,7 +48,14 @@ fun Event.toDto() = EventDto(id = id.value,
         status = status,
         organizers = organizers.toDto(),
         guest = guests.map { it.toDto() }.toSet(),
-        details = details.toDto())
+        details = details.toDto(),
+        discussion = discussion.toDto())
+
+private fun Discussion.toDto() = DiscussionDto(messages = messages.map { it.toDto() })
+
+private fun Message.toDto() = MessageDto(text = content.value,
+        creator = creator.toDto(),
+        createdAt = createdAt.localDateTime)
 
 private fun EventDetails.toDto() = EventDetailsDto(minAllowedAge = ageLimit.min?.int,
         maxAllowedAge = ageLimit.max?.int,

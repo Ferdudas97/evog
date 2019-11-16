@@ -19,6 +19,7 @@ data class EventDto(val id: String? = null,
                     val details: EventDetailsDto,
                     val organizers: ParticipantDto,
                     val isAssigned : Boolean = true,
+                    val discussion: DiscussionDto = DiscussionDto(),
                     val guest: Set<ParticipantDto>)
 
 const val pattern = "yyyy-MM-dd'T'HH:mm"
@@ -52,6 +53,13 @@ data class EventSnapshot(val id: String,
                          @JsonFormat(pattern = pattern)
                          val endTime: LocalDateTime,
                          val category: Category)
+
+
+data class DiscussionDto(val messages: List<MessageDto> = listOf())
+data class MessageDto(val text: String,
+                      val creator: ParticipantDto,
+                      @JsonFormat(pattern = pattern)
+                      val createdAt: LocalDateTime)
 
 data class EventFilterDto(val name: String? = null,
                           val minAllowedAge: Int? = null,

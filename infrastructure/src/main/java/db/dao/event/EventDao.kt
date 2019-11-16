@@ -6,7 +6,6 @@ import org.agh.eaiib.db.dao.GenericDao
 import org.agh.eaiib.db.entity.event.EventEntity
 import org.agh.eaiib.db.entity.event.ParticipiantEntity
 import org.litote.kmongo.coroutine.CoroutineDatabase
-import org.litote.kmongo.coroutine.updateOne
 import java.time.LocalDateTime
 
 
@@ -59,7 +58,7 @@ class EventDaoImpl(val db: CoroutineDatabase) : EventDao {
     }
 
     override suspend fun update(entity: EventEntity) {
-        db.getEvents().updateOne(entity)
+        db.getEvents().updateOneById(entity.id, entity)
     }
 
     private fun filter(eventFilter: EventFilter, entity: EventEntity): Boolean {
@@ -70,7 +69,7 @@ class EventDaoImpl(val db: CoroutineDatabase) : EventDao {
                         ?: true
                 val isAge = this.ageRange?.map { v -> v.int }?.isBeetwen(it.minAllowedAge.orMin(), it.maxAllowedAge.orMax())
                         ?: true
-                val isInRadius = this.isInRadius(it.longitude,it.latitude)
+                val isInRadius = this.isInRadius(it.longitude, it.latitude)
                 val isTime = this.timeRange?.isBeetwen(it.startDate) ?: true
                 val isCategory = this.category?.equals(it.category) ?: true
                 val isStatus = status?.equals(entity.status) ?: true

@@ -4,11 +4,13 @@ import api.command.event.EventCommand
 import api.command.event.dto.EventDetailsDto
 import api.command.event.dto.EventDto
 import api.command.event.dto.EventFilterDto
+import api.command.event.dto.MessageDto
 import api.query.event.EventQuery
 import application.command.event.handler.CancelEventHandler
 import application.command.event.handler.CreateEventHandler
 import application.command.event.handler.RemoveGuestEventHandler
 import application.command.event.handler.UpdateEventHandler
+import application.command.event.handler.discussion.AddMessageHandler
 import application.command.event.handler.notification.AssignEventHandler
 import application.query.event.handler.FindEventByIdQueryHandler
 import application.query.event.handler.GetFilteredEventsQueryHandler
@@ -26,6 +28,7 @@ fun Route.eventRoute(cancelEventHandler: CancelEventHandler,
                      findEventByIdQueryHandler: FindEventByIdQueryHandler,
                      getFilteredEventsQueryHandler: GetFilteredEventsQueryHandler,
                      removeGuestEventHandler: RemoveGuestEventHandler,
+                     addMessageHandler: AddMessageHandler,
                      assignEventHandler: AssignEventHandler) = route("/events") {
 
     post("") {
@@ -38,6 +41,16 @@ fun Route.eventRoute(cancelEventHandler: CancelEventHandler,
     }
 
     route("/{id}") {
+        post("/message") {
+            val message = call.receive<MessageDto>()
+            val id = call.parameters["id"]!!
+            val result = addMessageHandler.handle(EventCommand.Discussion.AddMessage(id, message))
+            when (result) {
+                is Either.Left -> call.respond(HttpStatusCode.InternalServerError, " Cannot add message")
+                is Either.Right -> call.respond(HttpStatusCode.OK, "ok")
+            }
+
+        }
         put {
             val details = call.receive<EventDetailsDto>()
             val id = call.parameters["id"]
@@ -52,7 +65,7 @@ fun Route.eventRoute(cancelEventHandler: CancelEventHandler,
             val id = call.parameters["id"]
             id?.let {
                 val userId = call.getUserId()
-                val query = EventQuery.FindById(id,userId)
+                val query = EventQuery.FindById(id, userId)
                 findEventByIdQueryHandler.exevute(query).apply {
                     when (this) {
                         null -> call.respond(HttpStatusCode.NotFound, " Event with id $id not found")
@@ -68,7 +81,7 @@ fun Route.eventRoute(cancelEventHandler: CancelEventHandler,
             val command = EventCommand.Notification.Assign(eventId, userId)
             val result = assignEventHandler.handle(command)
             when (result) {
-                is Either.Left -> call.respond(HttpStatusCode.InternalServerError,result.a)
+                is Either.Left -> call.respond(HttpStatusCode.InternalServerError, result.a)
                 is Either.Right -> call.respond(HttpStatusCode.OK)
             }
         }
@@ -77,9 +90,9 @@ fun Route.eventRoute(cancelEventHandler: CancelEventHandler,
             val userId = call.getUserId()
             val guestId = call.parameters["guestId"]!!
             val eventId = call.parameters["id"]!!
-            val command = EventCommand.RemoveGuest(eventId,guestId,userId)
-            val  result = removeGuestEventHandler.handle(command)
-            when(result) {
+            val command = EventCommand.RemoveGuest(eventId, guestId, userId)
+            val result = removeGuestEventHandler.handle(command)
+            when (result) {
                 is Either.Left -> call.respond(HttpStatusCode.InternalServerError, result.a)
                 is Either.Right -> call.respond(HttpStatusCode.OK)
             }

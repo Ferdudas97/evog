@@ -6,9 +6,8 @@ import domain.notification.CreationTime
 import domain.notification.Notification
 import domain.notification.NotificationId
 import org.agh.eaiib.db.entity.notification.NotificationEntity
+import org.agh.eaiib.db.mapper.event.toDomain
 import org.agh.eaiib.db.mapper.event.toEntity
-import org.agh.eaiib.db.mapper.event.toGuest
-import org.agh.eaiib.db.mapper.event.toOrganizer
 
 
 fun Notification.toEntity() = NotificationEntity(
@@ -23,8 +22,8 @@ fun Notification.toEntity() = NotificationEntity(
 
 fun NotificationEntity.toDomain() = Notification(
         id  = NotificationId(id),
-        receiver = receiver.toOrganizer(),
-        sender = sender.toGuest(),
+        receiver = receiver.toDomain(),
+        sender = sender.toDomain(),
         eventId = EventId(eventId),
         content = Content(content),
         state = state,

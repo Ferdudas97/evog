@@ -40,9 +40,9 @@ data class EventFilter(val name: String? = null,
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
         val distance =  earthRadius * c
-        return radius < distance
+        return radius >= distance
 
     }
 }
 
-const val earthRadius: Long = 6371 * 1000
+const val earthRadius: Long = 6371

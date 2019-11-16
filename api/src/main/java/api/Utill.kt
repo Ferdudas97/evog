@@ -3,6 +3,7 @@ package api
 import arrow.core.Either
 import arrow.core.Right
 import arrow.core.left
+import java.util.*
 
 
 fun <T, R> R?.toEither(f: () -> T) = when (this) {
@@ -18,3 +19,5 @@ fun <A, B> Either<A, B>.peek(f: (B) -> Unit): Either<A, B> = when (this) {
         this
     }
 }
+
+fun generateId() = UUID.randomUUID().toString()

@@ -84,7 +84,7 @@ fun Application.module(kodein: Kodein, testing: Boolean = false) {
         kodein.run {
             userRoute(instance(), instance())
             accountRoute(instance(), instance(), instance(), instance())
-            eventRoute(instance(), instance(), instance(), instance(), instance(), instance(), instance())
+            eventRoute(instance(), instance(), instance(), instance(), instance(), instance(), instance(), instance())
             notificationRoute(instance(), instance(), instance(), instance())
             staticFilesRoute(instance())
         }

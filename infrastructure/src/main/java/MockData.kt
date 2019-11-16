@@ -52,12 +52,14 @@ object MockData {
     val createAccountsCommands = listOf(AccountCommand.Create(account1, photo1),
             AccountCommand.Create(account2, photo2),
             AccountCommand.Create(account3, photo3))
+    val rzeszow = LocalizationDto(50.01, 22.012)
+    val krakow = LocalizationDto(50.08, 19.902)
     val details = EventDetailsDto(minAllowedAge = 18,
             maxAllowedAge = 24,
             minNumberOfPeople = 1,
             startDate = LocalDateTime.now().plusHours(5),
             endTime = LocalDateTime.now().plusHours(10),
-            localization = LocalizationDto(50.08, 19.902),
+            localization = rzeszow,
             category = Category.PARTY)
 
     fun UserDto.toParticipiant() = ParticipantDto(id = id!!, firstName = firstName, lastName = lastName, age = 22, fileId = "Randoom")

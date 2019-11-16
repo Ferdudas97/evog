@@ -41,7 +41,7 @@ class RemoveGuestEventHandler(private val eventRepository: EventRepository,
                     eventId = eventId,
                     content = Content("Niestety nie możesz wziąźć udziału w ${event.name.value}"), creationTime = CreationTime())
             notificationRepository.save(notification)
-                    .map { EventResult.GuestRemoved() }
+                    .map { EventResult.GuestRemoved }
         } else CannotRemoveOrganizer("Cannot remmove organizer ${organizator.id} of event ${event.id}").left()
     }
 }

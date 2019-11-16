@@ -1,5 +1,6 @@
 package org.agh.eaiib.db.entity.event
 
+import api.generateId
 import domain.event.model.Status
 import domain.event.model.details.Category
 import org.bson.codecs.pojo.annotations.BsonId
@@ -22,8 +23,19 @@ data class EventEntity(
         val guests: Set<ParticipiantEntity>,
         val organizers: ParticipiantEntity,
         val status: Status,
-        val details: DetailsEntity
+        val details: DetailsEntity,
+        val discussionEntity: DiscussionEntity = DiscussionEntity()
 )
+
+data class DiscussionEntity(@BsonId
+                            val id: String = generateId(),
+                            val messages: List<MessageEntity> = listOf())
+data class MessageEntity(
+        @BsonId
+        val id: String = generateId(),
+        val text: String,
+        val participant: ParticipiantEntity,
+        val createdAt: LocalDateTime)
 
 data class DetailsEntity(
         val minAllowedAge: Int?,

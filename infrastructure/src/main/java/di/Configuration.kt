@@ -9,11 +9,11 @@ import application.command.event.handler.CancelEventHandler
 import application.command.event.handler.CreateEventHandler
 import application.command.event.handler.RemoveGuestEventHandler
 import application.command.event.handler.UpdateEventHandler
+import application.command.event.handler.discussion.AddMessageHandler
 import application.command.event.handler.notification.AcceptEventInvitationRequestHandler
 import application.command.event.handler.notification.AssignEventHandler
 import application.command.event.handler.notification.DeleteNotificationHandler
 import application.command.event.handler.notification.RejectEventInvitationRequestHandler
-import application.mapper.event.toDomain
 import application.mapper.user.DEFAULT_FEMALE_PHOTO
 import application.mapper.user.DEFAULT_MALE_PHOTO
 import application.query.event.handler.FindEventByIdQueryHandler
@@ -43,7 +43,6 @@ import domain.account.repository.UserRepository
 import domain.event.repository.EventRepository
 import domain.notification.repository.NotificationRepository
 import kotlinx.coroutines.runBlocking
-import org.agh.eaiib.MockData
 import org.agh.eaiib.db.dao.event.EventDao
 import org.agh.eaiib.db.dao.event.EventDaoImpl
 import org.agh.eaiib.db.dao.images.ImageDao
@@ -66,7 +65,7 @@ fun dep() = Kodein {
     bind<CreateUserCommandHandler>() with singleton {
         CreateUserCommandHandler(instance(), instance()).apply {
             runBlocking {
-                MockData.createAccountsCommands.forEach { handle(it) }
+//                MockData.createAccountsCommands.forEach { handle(it) }
             }
         }
     }
@@ -91,6 +90,7 @@ fun dep() = Kodein {
     bind<CreateEventHandler>() with singleton { CreateEventHandler(instance()) }
     bind<CancelEventHandler>() with singleton { CancelEventHandler(instance()) }
     bind<UpdateEventHandler>() with singleton { UpdateEventHandler(instance()) }
+    bind<AddMessageHandler>() with singleton { AddMessageHandler(instance(), instance()) }
 
     bind<RemoveGuestEventHandler>() with singleton { RemoveGuestEventHandler(instance(), instance(), instance()) }
     bind<AssignEventHandler>() with singleton { AssignEventHandler(instance(), instance(), instance()) }
@@ -125,7 +125,7 @@ private fun repositories() = Module {
     bind<EventRepository>() with singleton {
         EventRepositoryImpl(instance()).apply {
             runBlocking {
-                MockData.mockedEvents.map { it.toDomain() }.forEach { save(it) }
+//                MockData.mockedEvents.map { it.toDomain() }.forEach { save(it) }
             }
         }
     }
